@@ -6,7 +6,7 @@ payloadadd = []
 while continuee==1
     ques=input('Add another mobster y/n? : ','s');
     if ques=='y'
-        infa=input('Name, seat number (1-10), weight [lbs] as column ->');
+        infa=input('Seat number (1-10), weight [lbs] as row ->');
         payloadadd=[payloadadd;infa]
     else continuee=0
     end
