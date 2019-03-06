@@ -10,10 +10,12 @@ function [ow,xcg,t] = cgcomp(bem,xcgbem,t,lfu,rfu,payload,fuelloaded)
     fuelmoment = (fuelslope*(fuel-100)+298.16)*100; %inch-pounds
     
     
-    ow=bem+sum(payload(:,2))+fuel
+    ow=bem+sum(payload(:,2))+fuel;
     
     %xcgs:
     zfm=bem+sum(payload(:,2))
     xcgzfm=(xcgbem*bem+payloadmoment)/zfm
     rampm=zfm+fuelloaded
     xcgramp=(xcgzfm*zfm+fuelmoment)/rampm
+    
+    xcg=(bem*xcgbem+payloadmoment+fuelmoment)/ow
