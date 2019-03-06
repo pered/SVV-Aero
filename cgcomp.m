@@ -6,4 +6,4 @@ payload=payloadfun();
 fuel=fuelloaded-lfu-rfu;
 fuelslope=2.8570048899755501222493887530562;
 fuelmoment = (fuelslope*(fuel-100)+298.16)*100; %inch-pounds
-payloadmoment=payload(:,2)*momentarms;
+payloadmoment=momentarms*payload(:,2);
