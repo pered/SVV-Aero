@@ -1,7 +1,7 @@
 
-classdef Symmetrical_Model_Numerical
+classdef Symmetrical_Model_Numerical(xu, xa, x0, zu, za, z0, zq, mu, ma, m0, mq)
    properties
-      A = [[xu, xalpha, xtheta, 0],[zu, zalpha, ztheta, zq], [0, 0, 0, V/c], [mu, malpha, mtheta, mq]]
+      A = [[xu, xa, x0, 0],[zu, za, z0, zq], [0, 0, 0, V/c], [mu, ma, m0, mq]]
    end
    methods
       function r = roundOff(obj)
@@ -12,3 +12,4 @@ classdef Symmetrical_Model_Numerical
       end
    end
 end
+
