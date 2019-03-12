@@ -43,7 +43,9 @@ rho = pressure/(8.3144598/0.0289644*(273.15+sat))
 
 coefficients = [0.21;0.04]; %1st Cl, 2nd Cd
 
-%
+%Trim Curves
+
+
 
 
 
