@@ -52,10 +52,12 @@ rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
 
+plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
 
 
-
-
+xplt=flightdata.vane_AOA.data(index:indexend);
+yplt=polyval(plat,xplt);
+plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),'o',xplt,yplt)
 
 
 
