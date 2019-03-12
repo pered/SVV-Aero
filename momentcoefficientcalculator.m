@@ -11,7 +11,7 @@ xcgbem=292.18;
 fuelloaded=4050;
 load payloadvals;
 
-rampweight = [bem+fuelloaded+sum(payload(:,2)),,3]; %OW, x cg pos, z cg pos in ibs and inches
+rampweight = [bem+fuelloaded+sum(payload(:,2)),xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
 %Unit conversion
 
 rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254]
