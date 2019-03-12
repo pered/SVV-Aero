@@ -19,16 +19,18 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 %Time point in minutes since the powerup of the recording of data
 
 timeoffset = 25+50/60;
+duration = 2.5;
 
 %Index of the start of the test
 
 index = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + timeoffset*60);
 index = index(1)
+indexend = index + duration*10*60
 
 %Weight obtaining the weight and cg at particular time point
 
 fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
-weightmetric = rampweightmetric(1) - fuelused(index)
+weightmetric = rampweightmetric(1) - fuelused(index:indexend)
 
 %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
 [ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded)
@@ -36,20 +38,18 @@ weightmetric = rampweightmetric(1) - fuelused(index)
 
 %Velocity of the aircraft in knots
 
-tas = flightdata.Dadc1_tas.data(index)*0.5144447
+tas = flightdata.Dadc1_tas.data(index:indexend)*0.5144447;
 
 %Pressure and density in metric units
 
-alt = flightdata.Dadc1_alt.data(index)
-pressure = 101325*(288.15/(288.15-0.0019812*(alt)))^((9.80665*0.0289644)/(8.3144598*-0.0065))
-sat = flightdata.Dadc1_sat.data(index)
-rho = pressure/(8.3144598/0.0289644*(273.15+sat))
-
-%Obtain coefficients of the aircraft
-
-coefficients = [0.21;0.04]; %1st Cl, 2nd Cd
+alt = flightdata.Dadc1_alt.data(index:indexend);
+pressure = 101325.*(288.15./(288.15-0.0019812.*(alt))).^((9.80665*0.0289644)/(8.3144598*-0.0065));
+sat = flightdata.Dadc1_sat.data(index:indexend);
+rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 %Trim Curves
+
+plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
 
 
 
