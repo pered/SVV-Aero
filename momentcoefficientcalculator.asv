@@ -9,7 +9,7 @@ geospecs = [30,2.0569]; %in metric, surface & mac
 bem=9165;
 xcgbem=292.18;
 fuelloaded=4050;
-load payloadvals;
+load(payloadvals);
 
 %Unit conversion
 
@@ -31,7 +31,7 @@ fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359
 weightmetric = rampweightmetric(1) - fuelused(index)
 
 %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
-[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded)
+[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU,rfu,payload,fuelloaded)
 %cg = 
 
 %Velocity of the aircraft in knots
@@ -49,9 +49,7 @@ rho = pressure/(8.3144598/0.0289644*(273.15+sat))
 
 coefficients = [0.21;0.04]; %1st Cl, 2nd Cd
 
-%Trim Curves
-
-
+%
 
 
 
