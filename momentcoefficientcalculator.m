@@ -4,8 +4,12 @@ rampweight = [12000,292,3]; %OW, x cg pos, z cg pos in ibs and inches
 
 geopos = [[4.2, 2.7];[6.7,3.8];[285.56,0]]; %1st wing position x and y, 2nd horizontal stabiliser position x and y and fuel position in inches
 
-geospecs = [30,2.0569]; %in metric
+geospecs = [30,2.0569]; %in metric, surface & mac
 
+bem=9165;
+xcgbem=292.18;
+fuelloaded=4050;
+load payloadvals;
 
 %Unit conversion
 
@@ -26,7 +30,9 @@ index = index(1)
 fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
 weightmetric = rampweightmetric(1) - fuelused(index)
 
-cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
+%cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
+[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded)
+%cg = 
 
 %Velocity of the aircraft in knots
 
