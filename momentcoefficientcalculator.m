@@ -54,13 +54,15 @@ plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:inde
 plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
 
 
+
+scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
+axis([0 5 0 5],'ij')
+hold on
 xplt=flightdata.vane_AOA.data(index:indexend);
 yplt=polyval(plat,xplt);
 plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),'o',xplt,yplt)
 
 
-scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
-axis([0 5 0 5],'ij')
-hold on
+
 
 
