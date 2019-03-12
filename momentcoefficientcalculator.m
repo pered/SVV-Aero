@@ -19,8 +19,8 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 %Time point in minutes since the powerup of the recording of data
 
-timeoffset = 25+50/60;
-duration = 2.5;
+timeoffset = 19+50/60;
+duration = 1;
 
 %Index of the start of the test
 
@@ -40,7 +40,6 @@ weightmetric = rampweightmetric(1) - fuelused(index:indexend)
 %Velocity of the aircraft in knots
 
 tas = flightdata.Dadc1_tas.data(index:indexend)*0.5144447;
-
 %Pressure and density in metric units
 
 alt = flightdata.Dadc1_alt.data(index:indexend);
@@ -60,12 +59,8 @@ yplt=polyval(plat,xplt);
 plot(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),'o',xplt,yplt)
 
 
-
-
-
-
-
-
-
+scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
+axis([0 5 0 5],'ij')
+hold on
 
 
