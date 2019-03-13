@@ -22,25 +22,25 @@ rampweight = [bem+fuelloaded+sum(payload(:,2)),xcgbem,3]; %OW, x cg pos, z cg po
 
 %Unit conversion
 
-rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254]
-geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geopos(2,2)*0.0254];[geopos(3,1)*0.0254, geopos(3,2)*0.0254]]
+rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254];
+geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geopos(2,2)*0.0254];[geopos(3,1)*0.0254, geopos(3,2)*0.0254]];
 
 %Index of the start of the test
 
 index = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + timeoffset*60);
-index = index(1)
-indexend = index + duration*10*60
+index = index(1);
+indexend = index + duration*10*60;
 
 %Weight obtaining the weight and cg at particular time point
 
 fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
-weightmetric = rampweightmetric(1) - fuelused(index:indexend)
+weightmetric = rampweightmetric(1) - fuelused(index:indexend);
 
 %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
-[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded)
+[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 
 
-%Velocity of the aircraft in knots
+%Velocity of the aircraft in m/s
 
 tas = flightdata.Dadc1_tas.data(index:indexend)*0.5144447;
 
@@ -59,18 +59,26 @@ eas = tas.*sqrt(rho./1.225);
 
 
 
-%Plot Elevator Trim Curve
+%Plot Elevator Trim Curve vs alpha
 
-plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
-axis([0 5 0 5],'ij')
+% plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+% scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
+% axis([0 5 0 5],'ij')
+% hold on
+% xplt=[0:1:20];
+% yplt=polyval(plat,xplt);
+% %P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+% plot(xplt,yplt)
+
+%Plot Elevator Trim Curve vs tas
+
+blyat = polyfit(flightdata.Dadc1_tas.data(index:indexend),flightdata.delta_e.data(index:indexend),2)
+xplt=[0:1:300];
+ypltav=polyval(blyat,xplt);
+scatter(flightdata.Dadc1_tas.data(index:indexend),flightdata.delta_e.data(index:indexend))
 hold on
-xplt=[0:1:20];
-yplt=polyval(plat,xplt);
-P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-plot(xplt,yplt)
-
-
+plot(xplt,ypltav)
+axis ij
 
 
 
