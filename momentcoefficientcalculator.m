@@ -29,7 +29,7 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 index = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + timeoffset*60);
 index = index(1);
-indexend = index + duration*112*60;
+	;
 
 %Weight obtaining the weight and cg at particular time point
 
@@ -59,14 +59,14 @@ eas = tas.*sqrt(rho./1.225);
 
 %Plot Elevator Trim Curve vs alpha
 
-% plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-% scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
-% axis([0 5 0 5],'ij')
-% hold on
-% xplt=[0:1:20];
-% yplt=polyval(plat,xplt);
-% %P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-% plot(xplt,yplt)
+plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
+axis([0 5 0 5],'ij')
+hold on
+xplt=[0:1:20];
+yplt=polyval(plat,xplt);
+%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+plot(xplt,yplt)
 
 %Plot Elevator Trim Curve vs tas
 %Still have to pick the right data to approximate this
@@ -80,10 +80,11 @@ eas = tas.*sqrt(rho./1.225);
 
 %Cmdeltae calculation from cg shift
 
-%cmde=cmde(11000*4.448,145,1.,2,3.,30,2.)
+cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
 %Cmalpha
 
-
+dealpha = plat(1);
+cmalpha = cmde * (-1) * dealpha 
 
