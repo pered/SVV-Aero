@@ -29,7 +29,7 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 index = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + timeoffset*60);
 index = index(1);
-indexend = index + duration*10*60;
+indexend = index + duration*112*60;
 
 %Weight obtaining the weight and cg at particular time point
 
@@ -55,8 +55,6 @@ rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 eas = tas.*sqrt(rho./1.225);
 
-%Calculate cm deltae
-
 
 
 %Plot Elevator Trim Curve vs alpha
@@ -71,14 +69,14 @@ eas = tas.*sqrt(rho./1.225);
 % plot(xplt,yplt)
 
 %Plot Elevator Trim Curve vs tas
-
-blyat = polyfit(flightdata.Dadc1_tas.data(index:indexend),flightdata.delta_e.data(index:indexend),2)
-xplt=[0:1:300];
-ypltav=polyval(blyat,xplt);
-scatter(flightdata.Dadc1_tas.data(index:indexend),flightdata.delta_e.data(index:indexend))
-hold on
-plot(xplt,ypltav)
-axis ij
+%Still have to pick the right data to approximate this
+% blyat = polyfit(tas,flightdata.delta_e.data(index:indexend),2)
+% xplt=[0:1:150];
+% ypltav=polyval(blyat,xplt);
+% scatter(tas,flightdata.delta_e.data(index:indexend))
+% hold on
+% plot(xplt,ypltav)
+% axis ij
 
 
 
