@@ -55,9 +55,11 @@ rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 eas = tas.*sqrt(rho./1.225);
 
-%Cmdeltae
+%Cmdeltae calculation from cg shift
 
-cmde=cmde(11000*4.448,145,1.,2,3.,30,2.)
+%cmde=cmde(11000*4.448,145,1.,2,3.,30,2.)
+%cmde(W,V,rho,deltae,deltacg,S,cbar)
+
 
 %Plot Elevator Trim Curve vs alpha
 
