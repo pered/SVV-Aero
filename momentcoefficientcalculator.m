@@ -55,7 +55,9 @@ rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 eas = tas.*sqrt(rho./1.225);
 
+%Cmdeltae
 
+cmde=cmde(11000*4.448,145,1.,2,3.,30,2.)
 
 %Plot Elevator Trim Curve vs alpha
 
