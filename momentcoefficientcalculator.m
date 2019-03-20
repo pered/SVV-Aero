@@ -85,7 +85,7 @@ plot(xplt,yplt)
 % axis ij
 
 %Cmdeltae calculation from cg shift
-
+deltacgref = 
 cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
