@@ -168,7 +168,8 @@ deltacg = xcgref2 - xcgref1;
 cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),deltacg,geospecs(1),geospecs(2))
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
-% 
+
+%Cmalpha
 
 dealpha = plat(1);
 cmalpha = cmde * (-1) * dealpha 
