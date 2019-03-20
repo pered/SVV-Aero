@@ -19,7 +19,7 @@ CD0    = 1;            % Zero lift drag coefficient [ ]
 CLa    = 1;            % Slope of CL-alpha curve [ ]
 
 % Longitudinal stability
-Cma    = 1;            % longitudinal stabilty [ ]
+Cma    = 1;            % longitudinal stability [ ]
 Cmde   = 1;            % elevator effectiveness [ ]
 
 hp0    = ;      	  % pressure altitude in the stationary flight condition [m]
