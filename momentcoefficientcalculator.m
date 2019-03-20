@@ -123,7 +123,9 @@ speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
 %Cmdeltae calculation from cg shift
 indexcgshift1 = 30531;
 indexcgshift2 = 31571;
-[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift1,flightdata.lh_engine_FU.data(indexcgshift1),flightdata.rh_engine_FU.data(indexcgshift1),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift2,flightdata.lh_engine_FU.data(indexcgshift2),flightdata.rh_engine_FU.data(indexcgshift2),payloadref,fuelloaded);
+deltacg = xcgref2 - xcgref1;
 cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
