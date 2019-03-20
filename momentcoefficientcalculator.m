@@ -146,7 +146,7 @@ indexcgshift11 = 30531;
 indexcgshift22 = 31571;
 
 [owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift11,flightdata.lh_engine_FU.data(indexcgshift11),flightdata.rh_engine_FU.data(indexcgshift11),payloadref,fuelloaded);
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
