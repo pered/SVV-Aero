@@ -169,8 +169,7 @@ cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
-% %Cmalpha
-% 
+
 dealpha = plat(1);
 cmalpha = cmde * (-1) * dealpha 
 
