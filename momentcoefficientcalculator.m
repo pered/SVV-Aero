@@ -165,8 +165,7 @@ indexcgshift22 = 31645;
 [owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 owrefmean=(owref1+owref2)/2;
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),deltacg*0.0254,geospecs(1),geospecs(2))
-cmde = cmde*180/pi()
+cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2))
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
 %Cmalpha
