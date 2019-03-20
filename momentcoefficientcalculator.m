@@ -3,7 +3,8 @@
 %%%CG Shift Test%%%
 
 
-timeoffcgshift = [31 + 10/60,10/60] %End time and duration
+timeoffcgshift = [51 + 02/60, 5/60;
+    52+46/60, 5/60]; %End time and duration
 
 
 %%%Elevator Trim Tests%%%
@@ -16,7 +17,7 @@ timeoffspeedrun = [37+19/60, 10/60; %End time and duration
     0,0;
     0,0;
     0,0;
-    0,0]
+    0,0];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -41,8 +42,8 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 %Index of the start of the test
 
-indexcgshift = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(1,1)-timeoffcgshift(1,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(1,1)*60);
-
+indexcgshift1 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(1,1)-timeoffcgshift(1,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(1,1)*60);
+indexcgshift2 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(2,1)-timeoffcgshift(2,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(2,1)*60);
 
 indexspeedrun1 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)-timeoffspeedrun(1,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)).*60);
 indexspeedrun2 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)-timeoffspeedrun(2,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)).*60);
@@ -54,32 +55,47 @@ indexspeedrun7 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1
 
 %atmospheric
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexcgshift(1), indexcgshift(end))
+cgshiftatmospheric = [];
 
-cgshiftatmospheric = [mean(rho), mean(tas)]
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexcgshift1(1), indexcgshift1(end));
 
-speedrunatmospheric = []
+cgshiftatmospheric = [cgshiftatmospheric; mean(rho), mean(tas)];
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun1(1), indexspeedrun1(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexcgshift2(1), indexcgshift2(end));
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun2(1), indexspeedrun2(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+cgshiftatmospheric = [cgshiftatmospheric; mean(rho), mean(tas)];
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun3(1), indexspeedrun3(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+%%%
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun4(1), indexspeedrun4(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+speedrunatmospheric = [];
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun5(1), indexspeedrun5(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun1(1), indexspeedrun1(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun6(1), indexspeedrun6(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun2(1), indexspeedrun2(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
 
-[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun7(1), indexspeedrun7(end))
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun3(1), indexspeedrun3(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun4(1), indexspeedrun4(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun5(1), indexspeedrun5(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun6(1), indexspeedrun6(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun7(1), indexspeedrun7(end));
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+
+
+%Calculation of CG Shift Elevator Angle
+
+
+deltae = [mean(flightdata.delta_e.data(indexcgshift1));
+mean(flightdata.delta_e.data(indexcgshift2))];
 
 
 %Matrix with values
@@ -121,12 +137,16 @@ speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
 % % axis ij
 % 
 %Cmdeltae calculation from cg shift
-indexcgshift1 = 30531;
-indexcgshift2 = 31571;
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift1,flightdata.lh_engine_FU.data(indexcgshift1),flightdata.rh_engine_FU.data(indexcgshift1),payloadref,fuelloaded);
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift2,flightdata.lh_engine_FU.data(indexcgshift2),flightdata.rh_engine_FU.data(indexcgshift2),payloadref,fuelloaded);
+
+cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),3.,geospecs(1),geospecs(2))
+
+indexcgshift11 = 30531;
+indexcgshift22 = 31571;
+
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift11,flightdata.lh_engine_FU.data(indexcgshift11),flightdata.rh_engine_FU.data(indexcgshift11),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadref,fuelloaded);
 deltacg = xcgref2 - xcgref1;
-cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
+
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
 % %Cmalpha
