@@ -170,8 +170,8 @@ deltacg = xcgref2 - xcgref1;
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
-% %Cmalpha
-% 
-% dealpha = plat(1);
-% cmalpha = cmde * (-1) * dealpha 
+%Cmalpha
+
+dealpha = plat(1);
+cmalpha = cmde * (-1) * dealpha 
 
