@@ -140,8 +140,6 @@ mean(flightdata.delta_e.data(indexcgshift2))];
 
 %Cmdeltae calculation from cg shift
 
-cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),3.,geospecs(1),geospecs(2))
-
 indexcgshift11 = 30531;
 indexcgshift22 = 31571;
 
@@ -149,10 +147,12 @@ indexcgshift22 = 31571;
 [owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 
+cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),deltacg,geospecs(1),geospecs(2))
+
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
 % %Cmalpha
 % 
-% dealpha = plat(1);
-% cmalpha = cmde * (-1) * dealpha 
+dealpha = plat(1);
+cmalpha = cmde * (-1) * dealpha 
 
