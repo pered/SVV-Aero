@@ -85,7 +85,9 @@ plot(xplt,yplt)
 % axis ij
 
 %Cmdeltae calculation from cg shift
-deltacgref = 
+indexcgshift1 = 30531;
+indexcgshift2 = 31571;
+[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
