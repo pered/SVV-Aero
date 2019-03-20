@@ -41,56 +41,92 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 %Index of the start of the test
 
-indexchshift = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) - (timeoffcgshift(1,1)+timeoffcgshift(1,2))*60);
+indexcgshift = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(1,1)-timeoffcgshift(1,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(1,1)*60);
 
 
-indexspeedrun = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) - (timeoffspeedrun(1,1)+timeoffspeedrun(1,2))*60);
-indexspeedrun = indexspeedrun(1);
+indexspeedrun1 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)-timeoffspeedrun(1,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)).*60);
+indexspeedrun2 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)-timeoffspeedrun(2,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)).*60);
+indexspeedrun3 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(3,1)-timeoffspeedrun(3,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(3,1)).*60);
+indexspeedrun4 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(4,1)-timeoffspeedrun(4,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(4,1)).*60);
+indexspeedrun5 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(5,1)-timeoffspeedrun(5,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(5,1)).*60);
+indexspeedrun6 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(6,1)-timeoffspeedrun(6,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(6,1)).*60);
+indexspeedrun7 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(7,1)-timeoffspeedrun(7,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(7,1)).*60);
 
-%Atmoshperic
+%atmospheric
 
-[alt,pressure,sat,rho,tas,eas] = atmoshperic(flightdata, index, indexend)
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexcgshift(1), indexcgshift(end))
 
-%Weight obtaining the weight and cg at particular time point
+cgshiftatmospheric = [mean(rho), mean(tas)]
 
-fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
-weightmetric = rampweightmetric(1) - fuelused(index:indexend);
+speedrunatmospheric = []
 
-%cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
-[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun1(1), indexspeedrun1(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun2(1), indexspeedrun2(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun3(1), indexspeedrun3(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun4(1), indexspeedrun4(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun5(1), indexspeedrun5(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun6(1), indexspeedrun6(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+[alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun7(1), indexspeedrun7(end))
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]]
+
+
+%Matrix with values
 
 
 
 
-
-%Plot Elevator Trim Curve vs alpha
-
-plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
-axis([0 5 0 5],'ij')
-hold on
-xplt=[0:1:20];
-yplt=polyval(plat,xplt);
-%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-plot(xplt,yplt)
-
-%Plot Elevator Trim Curve vs tas
-%Still have to pick the right data to approximate this
-% blyat = polyfit(tas,flightdata.delta_e.data(index:indexend),2)
-% xplt=[0:1:150];
-% ypltav=polyval(blyat,xplt);
-% scatter(tas,flightdata.delta_e.data(index:indexend))
+% %Weight obtaining the weight and cg at particular time point
+% 
+% fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
+% weightmetric = rampweightmetric(1) - fuelused(index:indexend);
+% 
+% %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
+% [ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+% 
+% 
+% 
+% 
+% 
+% %Plot Elevator Trim Curve vs alpha
+% 
+% plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+% scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
+% axis([0 5 0 5],'ij')
 % hold on
-% plot(xplt,ypltav)
-% axis ij
-
+% xplt=[0:1:20];
+% yplt=polyval(plat,xplt);
+% %P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+% plot(xplt,yplt)
+% 
+% %Plot Elevator Trim Curve vs tas
+% %Still have to pick the right data to approximate this
+% % blyat = polyfit(tas,flightdata.delta_e.data(index:indexend),2)
+% % xplt=[0:1:150];
+% % ypltav=polyval(blyat,xplt);
+% % scatter(tas,flightdata.delta_e.data(index:indexend))
+% % hold on
+% % plot(xplt,ypltav)
+% % axis ij
+% 
 %Cmdeltae calculation from cg shift
 
 cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
-
-%Cmalpha
-
-dealpha = plat(1);
-cmalpha = cmde * (-1) * dealpha 
+% 
+% %Cmalpha
+% 
+% dealpha = plat(1);
+% cmalpha = cmde * (-1) * dealpha 
 
