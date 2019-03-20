@@ -136,6 +136,8 @@ mean(flightdata.delta_e.data(indexcgshift2))];
 % % plot(xplt,ypltav)
 % % axis ij
 % 
+
+
 %Cmdeltae calculation from cg shift
 
 cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),3.,geospecs(1),geospecs(2))
