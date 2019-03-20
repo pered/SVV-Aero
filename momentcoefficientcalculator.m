@@ -157,11 +157,16 @@ axis ij
 
 cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),3.,geospecs(1),geospecs(2))
 
-indexcgshift1 = 30531;
-indexcgshift2 = 31571;
+indexcgshift11 = 30531;
+indexcgshift22 = 31571;
 
 %[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 %cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
+
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift11,flightdata.lh_engine_FU.data(indexcgshift11),flightdata.rh_engine_FU.data(indexcgshift11),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadrefshifted,fuelloaded);
+deltacg = xcgref2 - xcgref1;
+
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
