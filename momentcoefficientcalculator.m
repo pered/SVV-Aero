@@ -137,7 +137,15 @@ mean(flightdata.delta_e.data(indexcgshift2))];
 % % axis ij
 % 
 %Cmdeltae calculation from cg shift
+
 cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae),3.,geospecs(1),geospecs(2))
+
+indexcgshift1 = 30531;
+indexcgshift2 = 31571;
+
+[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
+
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
 % %Cmalpha
