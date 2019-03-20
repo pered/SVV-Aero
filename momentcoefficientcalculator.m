@@ -12,12 +12,12 @@ timeoffcgshift = [51 + 02/60, 5/60;
 %Speedrun 1-7
 
 timeoffspeedrun = [37+19/60, 10/60; %End time and duration
-    0,0;
-    0,0;
-    0,0;
-    0,0;
-    0,0;
-    0,0];
+    39+11/60,10/60;
+    41+24/60,10/60;
+    42+56/60,10/60;
+    45+41/60,10/60;
+    47+20/60,10/60;
+    48+40/60,10/60];
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,6 +98,20 @@ deltae = [mean(flightdata.delta_e.data(indexcgshift1));
 mean(flightdata.delta_e.data(indexcgshift2))];
 
 
+%Plot Data
+
+
+speedrunplot = [];
+
+speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), mean(flightdata.delta_e.data(indexspeedrun1)); 
+    mean(flightdata.vane_AOA.data(indexspeedrun2)), mean(flightdata.delta_e.data(indexspeedrun2));
+    mean(flightdata.vane_AOA.data(indexspeedrun3)), mean(flightdata.delta_e.data(indexspeedrun3));
+    mean(flightdata.vane_AOA.data(indexspeedrun4)), mean(flightdata.delta_e.data(indexspeedrun4));
+    mean(flightdata.vane_AOA.data(indexspeedrun5)), mean(flightdata.delta_e.data(indexspeedrun5));
+    mean(flightdata.vane_AOA.data(indexspeedrun6)), mean(flightdata.delta_e.data(indexspeedrun6));
+    mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
+
+
 %Matrix with values
 
 
@@ -110,32 +124,33 @@ mean(flightdata.delta_e.data(indexcgshift2))];
 % 
 % %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
 % [ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
-% 
-% 
-% 
-% 
-% 
-% %Plot Elevator Trim Curve vs alpha
-% 
-% plat = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-% scatter(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend))
-% axis([0 5 0 5],'ij')
-% hold on
-% xplt=[0:1:20];
-% yplt=polyval(plat,xplt);
-% %P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-% plot(xplt,yplt)
-% 
-% %Plot Elevator Trim Curve vs tas
-% %Still have to pick the right data to approximate this
-% % blyat = polyfit(tas,flightdata.delta_e.data(index:indexend),2)
-% % xplt=[0:1:150];
-% % ypltav=polyval(blyat,xplt);
-% % scatter(tas,flightdata.delta_e.data(index:indexend))
-% % hold on
-% % plot(xplt,ypltav)
-% % axis ij
-% 
+
+
+
+%Plot Elevator Trim Curve vs alpha
+
+figure(1)
+plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1)
+scatter(speedrunplot(:,1),speedrunplot(:,2))
+axis('ij')
+hold on
+xplt=[0:1:13];
+yplt=polyval(plat,xplt);
+%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+plot(xplt,yplt)
+
+
+%Plot Elevator Trim Curve vs tas
+
+figure(2)
+blyat = polyfit((speedrunatmospheric(:,2).^(-2)),speedrunplot(:,2),1);
+xplt=[35:1:150];
+ypltav=polyval(blyat,xplt.^(-2));
+scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
+hold on
+plot(xplt,ypltav)
+axis ij
+
 
 
 %Cmdeltae calculation from cg shift
@@ -145,8 +160,8 @@ cmde = cmdee(11000*4.448,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:
 indexcgshift1 = 30531;
 indexcgshift2 = 31571;
 
-[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
-cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
+%[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+%cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 % 
