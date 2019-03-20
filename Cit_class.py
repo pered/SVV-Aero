@@ -52,11 +52,28 @@ class Symmetrical_Model_Numerical():
         self.sys = control.ss(self.A, self.B, self.C, self.D)
         
     def pulse_e(self, d_e = 10. * np.pi / 180., tmax = 30., step = 0.1):
-        tt = np.arange(0, tmax, step)
+        self.tt = np.arange(0, tmax, step)
         
-        control.impulse_response(self.sys, tt, d_e, 0, (0,1,2))
-
+        self.q = 0
+        self.a0 = 2. * np.pi / 180.
+        self.theta0 = 3. * np.pi / 180.
+        self.x0 = np.array([hp0, 0.1, self.a0, self.theta0, self.q * V / c])
+        
+        tt, hh = control.impulse_response(self.sys, self.tt, self.x0, 0, 0)
+        #tt, vv = control.impulse_response(self.sys, tt, x0, 0, 1)
+        #tt, aa = control.impulse_response(self.sys, tt, x0, 0, 2)
+        
+        plt.close('all')
+        plt.plot(tt,hh)
+        #plt.plot(tt,vv)
+        #plt.plot(tt,aa)
+        plt.show()
+        
+    def eigs(self):
+        return
+        
 
 citation = Symmetrical_Model_Numerical()
+citation.pulse_e()
 
 print(citation.sys)
