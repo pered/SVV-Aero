@@ -5,13 +5,13 @@ Created on Wed Mar  6 09:14:25 2019
 @author: M.Osowski
 """
 
-import numpy as np
+import scipy as np
 import matplotlib.pyplot as plt
 import control 
 
-from Cit_par_eigtest import *
+from Cit_par_refdata import *
 
-V = V0
+
 
 plt.close('all')
 
@@ -22,9 +22,9 @@ plt.close('all')
 #given disturbance
 
 class Symmetrical_Model_Numerical():
-    def __init__(self):
+    def __init__(self, V):
         #Upon creation of the class object, the state space system is set up and assembled
-        
+        self.V = V
         #Setup of A matrix
         self.xu = V * CXu / (c * 2 * muc)
         self.xa = V * CXa / (c * 2 * muc)
@@ -64,8 +64,8 @@ class Symmetrical_Model_Numerical():
         self.sys = control.ss(self.A, self.B, self.C, self.D)
     
     def ic(self, tmax, step, u0, a0, theta0, q0):
-        tt = np.arange(0, tmax, step)
-        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * V / c])
+        tt = np.arange(0, tmax + step, step)
+        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / c])
         
         return tt, x0
         
@@ -77,7 +77,7 @@ class Symmetrical_Model_Numerical():
         
         out *= mag
         
-        V0vec = V0 * np.ones(len(tt))
+        V0vec = self.V * np.ones(len(tt))
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
@@ -95,7 +95,7 @@ class Symmetrical_Model_Numerical():
         
         tt, out = control.initial_response(self.sys, tt, x0)
         
-        V0vec = V0 * np.ones(len(tt))
+        V0vec = self.V * np.ones(len(tt))
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
@@ -105,8 +105,10 @@ class Symmetrical_Model_Numerical():
         plt.plot(tt,out[1])
         plt.plot(tt,out[2])
         plt.show()
+        
+        return tt, out
     
-    def step(self, tmax = 180., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01):
+    def step(self, tmax = 1800., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01):
         
         tt, x0 = Symmetrical_Model_Numerical.ic(self, tmax, step, u0, a0, theta0, q0)
         
@@ -114,7 +116,7 @@ class Symmetrical_Model_Numerical():
         
         out *= mag
         
-        V0vec = V0 * np.ones(len(tt))
+        V0vec = self.V * np.ones(len(tt))
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
@@ -124,13 +126,34 @@ class Symmetrical_Model_Numerical():
         plt.plot(tt,out[1])
         plt.plot(tt,out[2])
         plt.show()
+        
+        return tt, out
 
-    def pulse(self, tmax = 180., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01, length = 180.):
+    def pulse(self, tmax = 1800., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01, length = 2.):
         
         tt, x0 = Symmetrical_Model_Numerical.ic(self, tmax, step, u0, a0, theta0, q0)
         
         f = np.zeros((2, len(tt)))
         f[0, tt<=length] = mag
+        
+        tt, out, xout = control.forced_response(self.sys, tt, f, x0)
+        
+        V0vec = self.V * np.ones(len(tt))
+        out[0] += V0vec
+        out[1] *= 180/np.pi
+        out[2] *= 180/np.pi
+        
+        #plt.close('all')   
+        plt.plot(tt,out[0])
+        plt.plot(tt,out[1])
+        plt.plot(tt,out[2])
+        plt.show()
+        
+        return tt, out
+        
+    def forced(self, f, tmax = 1800., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0):
+        tt, x0 = Symmetrical_Model_Numerical.ic(self, tmax, step, u0, a0, theta0, q0)
+        
         
         tt, out, xout = control.forced_response(self.sys, tt, f, x0)
         
@@ -141,9 +164,11 @@ class Symmetrical_Model_Numerical():
         
         #plt.close('all')   
         plt.plot(tt,out[0])
-        plt.plot(tt,out[1])
+        #plt.plot(tt,out[1])
         plt.plot(tt,out[2])
         plt.show()
+        
+        return tt, out
     
     def eigs(self):
         self.eigs = np.linalg.eigvals(self.A)
@@ -158,9 +183,9 @@ class Symmetrical_Model_Numerical():
         print(self.eigs)
         
     
-citation = Symmetrical_Model_Numerical()
+#citation = Symmetrical_Model_Numerical(V0)
 #citation.pulse_e()
 #citation.initial()
 #citation.step()
-citation.pulse()
-citation.eigs()
+#citation.pulse()
+#citation.eigs()
