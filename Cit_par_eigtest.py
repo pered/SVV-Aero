@@ -3,7 +3,7 @@
 
 
 # Stationary flight condition
-import numpy as np
+import scipy as np
 
 hp0    = 8000.      	     # pressure altitude in the stationary flight condition [m]
 V0     = 59.9          # true airspeed in the stationary flight condition [m/sec]
