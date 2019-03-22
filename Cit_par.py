@@ -1,26 +1,26 @@
 # Citation 550 - Linear simulation
 
-
+# xcg = 0.25 * c
 
 # Stationary flight condition
 import numpy as np
 
-hp0    = 8000.      	     # pressure altitude in the stationary flight condition [m]
-V0     = 70.          # true airspeed in the stationary flight condition [m/sec]
+hp0    = 1.      	     # pressure altitude in the stationary flight condition [m]
+V0     = 300.          # true airspeed in the stationary flight condition [m/sec]
 alpha0 = 3. * np.pi / 180            # angle of attack in the stationary flight condition [rad]
-th0    = 2. * np.pi / 180            # pitch angle in the stationary flight condition [rad]
+th0    = 5. * np.pi / 180            # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
-m      = 6000.            # mass [kg]
+m      = 10000.            # mass [kg]
 
 # aerodynamic properties
-e      = 0.8            # Oswald factor [ ]
-CD0    = 0.04            # Zero lift drag coefficient [ ]
-CLa    = 5.084       # Slope of CL-alpha curve [ ]
+e      = 1.            # Oswald factor [ ]
+CD0    = 0.005            # Zero lift drag coefficient [ ]
+CLa    = 0.5           # Slope of CL-alpha curve [ ]
 
 # Longitudinal stability
-Cma    = -3.         # longitudinal stabilty [ ]
-Cmde   = -0.4           # elevator effectiveness [ ]
+Cma    = -1.            # longitudinal stabilty [ ]
+Cmde   = -0.5            # elevator effectiveness [ ]
 
 # Aircraft geometry
 
@@ -36,7 +36,6 @@ A      = b ** 2 / S      # wing aspect ratio [ ]
 Ah     = bh ** 2 / Sh    # stabilser aspect ratio [ ]
 Vh_V   = 1	          # [ ]
 ih     = -2 * np.pi / 180   # stabiliser angle of incidence [rad]
-xcg = 0.25 * c
 
 # Constant values concerning atmosphere and gravity
 
@@ -61,7 +60,7 @@ KY2    = 1.25 * 1.114
 
 # Aerodynamic constants
 
-Cmac   = 0.                      # Moment coefficient about the aerodynamic centre [ ]
+Cmac   = 0                      # Moment coefficient about the aerodynamic centre [ ]
 CNwa   = CLa                    # Wing normal force slope [ ]
 CNha   = 2 * np.pi * Ah / (Ah + 2) # Stabiliser normal force slope [ ]
 depsda = 4 / (A + 2)            # Downwash gradient [ ]
@@ -96,7 +95,7 @@ Cmde   = 0.0
 Cmdt   = 0.0
 
 CYb    = -0.7500
-CYbdot =  0.0     
+CYbdot =  0     
 CYp    = -0.0304
 CYr    = +0.8495
 CYda   = -0.0400
@@ -109,7 +108,7 @@ Clda   = -0.23088
 Cldr   = +0.03440
 
 Cnb    =  +0.1348
-Cnbdot =   0.0     
+Cnbdot =   0     
 Cnp    =  -0.0602
 Cnr    =  -0.2061
 Cnda   =  -0.0120
