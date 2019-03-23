@@ -1,13 +1,13 @@
 %Time point in minutes since the powerup of the recording of data
 
 
-indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1)
+indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1);
 
-indexes = find(flightdata.measurement_running.data)
+indexes = find(flightdata.measurement_running.data);
 
 start = [indexes(1),indexes(indexmeasurements(1));
     indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
-    indexes(indexmeasurements(end)+1), indexes(end)]
+    indexes(indexmeasurements(end)+1), indexes(end)];
 
 %%%CG Shift Test%%%
 
@@ -61,6 +61,17 @@ indexspeedrun4 = start(12,1):start(12,2);
 indexspeedrun5 = start(13,1):start(13,2);
 indexspeedrun6 = start(14,1):start(14,2);
 indexspeedrun7 = start(15,1):start(15,2);
+
+disp(['Elevator Trim Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun1(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun2(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 3: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun3(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun3(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 4: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun4(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun4(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 5: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun5(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun5(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 6: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun6(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun6(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 7: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun7(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun7(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['CG Shift Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshift1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexcgshift1(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['CG Shift Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshift2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexcgshift2(end))-flightdata.Gps_utcSec.data(1))/60)])
+
 
 %atmospheric
 
@@ -139,7 +150,7 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
 %Plot Elevator Trim Curve vs alpha
 
 figure(1)
-plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1)
+plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1);
 scatter(speedrunplot(:,1),speedrunplot(:,2))
 axis('ij')
 hold on
@@ -171,11 +182,12 @@ owrefmean=(owref1+owref2)/2;
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2))
-
+cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
 
 %Cmalpha
 
 dealpha = plat(1);
-cmalpha = cmde * (-1) * dealpha
+cmalpha = cmde * (-1) * dealpha;
+
+disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 
