@@ -29,9 +29,9 @@ geospecs = [30,2.0569]; %in metric, surface & mac
 bem=9165;
 xcgbem=292.18;
 fuelloaded=4050;
-load payloadvals;
 
-rampweight = [bem+fuelloaded+sum(payload(:,2)),xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
+
+rampweight = [bem+fuelloaded+sum(payloadref(:,2))*2.20462,xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
 
 %Unit conversion
 
