@@ -12,8 +12,6 @@ start = [indexes(1),indexes(indexmeasurements(1));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-geopos = [[4.2, 2.7];[6.7,3.8];[285.56,0]]; %1st wing position x and y, 2nd horizontal stabiliser position x and y and fuel position in inches
-
 geospecs = [30,2.0569]; %in metric, surface & mac
 
 bem=9165;
