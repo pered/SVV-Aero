@@ -38,9 +38,9 @@ geospecs = [30,2.0569]; %in metric, surface & mac
 bem=9165;
 xcgbem=292.18;
 fuelloaded=4050;
-load payloadvals;
 
-rampweight = [bem+fuelloaded+sum(payload(:,2)),xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
+
+rampweight = [bem+fuelloaded+sum(payloadref(:,2))*2.20462,xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
 
 %Unit conversion
 
@@ -175,8 +175,8 @@ axis ij
 
 %[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded);
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded);
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded)
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded)
 deltacg = xcgref2 - xcgref1;
 owrefmean=(owref1+owref2)/2;
 
