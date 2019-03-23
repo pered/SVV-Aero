@@ -7,13 +7,8 @@ Created on Wed Mar  6 09:14:25 2019
 
 import scipy as np
 import matplotlib.pyplot as plt
-import control
-import webbrowser
-
-from Cit_par_refdata import *
-
 import control 
-#from Cit_par_refdata import *
+from Cit_par_refdata import *
 
 
 plt.close('all')
@@ -69,8 +64,7 @@ class Symmetrical_Model_Numerical():
     
     def ic(self, tmax, step, u0, a0, theta0, q0):
         tt = np.arange(0, tmax + step, step)
-        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / c])
-        webbrowser.open('https://www.blacked.com/')
+        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / self.c])
         
         return tt, x0
         
@@ -83,7 +77,6 @@ class Symmetrical_Model_Numerical():
         out *= mag
         
         V0vec = self.V * np.ones(len(tt))
-        webbrowser.open('https://efukt.com/22747_Porn_Scenes_Worthy_of_an_Oscar_2019.html/')
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
@@ -135,7 +128,7 @@ class Symmetrical_Model_Numerical():
         
         return tt, out
 
-    def pulse(self, tmax = 100., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01, length = 2.):
+    def pulse(self, tmax = 100., step = 0.1, u0 = 0., a0 = 0., theta0 = 0., q0 = 0, mag = 0.02, length = 20.):
         
         tt, x0 = Symmetrical_Model_Numerical.ic(self, tmax, step, u0, a0, theta0, q0)
         
@@ -149,7 +142,8 @@ class Symmetrical_Model_Numerical():
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
         
-        #plt.close('all')   
+        #plt.close('all') 
+        plt.plot(tt,f[0])
         plt.plot(tt,out[0])
         plt.plot(tt,out[1])
         plt.plot(tt,out[2])
@@ -188,10 +182,77 @@ class Symmetrical_Model_Numerical():
         
         print(self.eigs)
         
+#class Asymmetric_Model_numerical():
+#    
+#    def __init__(self, V):
+#    
+#        y_beta   = (V/b) * (CYb/(2*mub))
+#        y_phi    = (V/b) * (CL/(2*mub))
+#        y_p      = (V/b) * (CYp/(2*mub))
+#        y_r      = (V/b) * ((CYr-4*mub)/(2*mub))
+#        y_deltaa = (V/b) * (CYda/(2*mub))
+#        y_deltar = (V/b) * (CYdr/(2*mub))
+#        
+#        
+#        l_beta   = (V/b) * ((Clb * KZ2 + Cnb * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        l_phi    = 0
+#        l_p      = (V/b) * ((Clp * KZ2 + Cnp * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        l_r      = (V/b) * ((Clr * KZ2 + Cnr * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        l_deltaa = (V/b) * ((Clda * KZ2 + Cnda * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        l_deltar = (V/b) * ((Cldr * KZ2 + Cndr * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        
+#        n_beta   = (V/b) * ((Clb * KXZ + Cnb * KX2)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        n_phi    = 0
+#        n_p      = (V/b) * ((Clp * KXZ + Cnp * KX2)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        n_r      = (V/b) * ((Clr * KXZ + Cnr * KX2)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        n_deltaa = (V/b) * ((Clda * KXZ + Cnda * KX2)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        n_deltar = (V/b) * ((Cldr * KXZ + Cndr * KX2)/(4*mub * (KX2 * KZ2 - KXZ**2)))
+#        
+#        self.set_A()
+#        self.set_B()
+#        self.set_C()
+#        self.set_D()
+#
+#    def set_A(self):
+#        
+#        self.A = [[ self.y_beta, self.y_phi,       self.y_p, self.y_r ],
+#                  [          0.,         0.,      2 * (V/b),       0. ],
+#                  [ self.l_beta,         0.,       self.l_p, self.l_r ],
+#                  [ self.n_beta,         0.,       self.n_p, self.n_r ]]
+#        
+#    def set_B(self):
+#        
+#        self.B = [[            0., self.y_deltar],
+#                  [            0.,            0.],
+#                  [ self.l_deltaa, self.l_deltar],
+#                  [ self.n_deltaa, self.n_deltar]]
+#        
+#    def set_C(self):
+#        
+#        self.C = [[  1., 0.,      0.,      0. ],
+#                  [  0., 1.,      0.,      0. ],
+#                  [  0., 0., (2*V)/b,      0. ],
+#                  [  0., 0.,      0., (2*V)/b ],
+#                  [ -1., 0.,      0.,      0. ]]
+#        
+#    def set_D(self):
+#        
+#        self.D = [[ 0., 0. ],
+#                  [ 0., 0. ],
+#                  [ 0., 0. ],
+#                  [ 0., 0. ],
+#                  [ 0., 0. ]] 
+#        
+#    def ic(self, tmax, step, b0, psi0, p0, r0):
+#        tt = np.arange(0, tmax + step, step)
+#        x0 = np.array([b0 * np.pi / 180., psi0 * np.pi / 180., p0*self.b/(2*self.V), r0 *self.b/(2*self.V)])
+#        
+#        return tt, x0
     
-#citation = Symmetrical_Model_Numerical(V0)
+    
+citation = Symmetrical_Model_Numerical(V0, c, CXu, CXa, CZ0, CZu, CZa, CZadot, muc, CZq, Cmu, Cmadot, KY2, Cma, CX0, Cmq, CXde, CXdt, CZde, CZdt, Cmde, Cmdt)
 #citation.pulse_e()
 #citation.initial()
 #citation.step()
-#citation.pulse()
+citation.pulse()
 #citation.eigs()
