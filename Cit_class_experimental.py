@@ -8,9 +8,7 @@ Created on Wed Mar  6 09:14:25 2019
 import scipy as np
 import matplotlib.pyplot as plt
 import control 
-
-from Cit_par_refdata import *
-
+#from Cit_par_refdata import *
 
 
 plt.close('all')
@@ -22,9 +20,10 @@ plt.close('all')
 #given disturbance
 
 class Symmetrical_Model_Numerical():
-    def __init__(self, V):
+    def __init__(self, V, c, CXu, CXa, CZ0, CZu, CZa, CZadot, muc, CZq, Cmu, Cmadot, KY2, Cma, CX0, Cmq, CXde, CXdt, CZde, CZdt, Cmde, Cmdt):
         #Upon creation of the class object, the state space system is set up and assembled
         self.V = V
+        self.c = c
         #Setup of A matrix
         self.xu = V * CXu / (c * 2 * muc)
         self.xa = V * CXa / (c * 2 * muc)
@@ -65,7 +64,7 @@ class Symmetrical_Model_Numerical():
     
     def ic(self, tmax, step, u0, a0, theta0, q0):
         tt = np.arange(0, tmax + step, step)
-        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / c])
+        x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / self.c])
         
         return tt, x0
         
@@ -129,7 +128,7 @@ class Symmetrical_Model_Numerical():
         
         return tt, out
 
-    def pulse(self, tmax = 1800., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01, length = 2.):
+    def pulse(self, tmax = 100., step = 0.1, u0 = 0., a0 = 10., theta0 = 10., q0 = 0, mag = 0.01, length = 2.):
         
         tt, x0 = Symmetrical_Model_Numerical.ic(self, tmax, step, u0, a0, theta0, q0)
         
@@ -157,7 +156,7 @@ class Symmetrical_Model_Numerical():
         
         tt, out, xout = control.forced_response(self.sys, tt, f, x0)
         
-        V0vec = V0 * np.ones(len(tt))
+        V0vec = self.V * np.ones(len(tt))
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
