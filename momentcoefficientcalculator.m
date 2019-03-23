@@ -24,9 +24,6 @@ rampweight = [bem+fuelloaded+sum(payloadref(:,2))*2.20462,xcgbem,3]; %OW, x cg p
 %Unit conversion
 
 rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254];
-geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geopos(2,2)*0.0254];[geopos(3,1)*0.0254, geopos(3,2)*0.0254]];
-
-
 
 %Index of the start of the test
 
