@@ -14,9 +14,10 @@ function [ow,xcg,t] = cgcomp(bem,xcgbem,t,lfu,rfu,payload,fuelloaded)
     ow=bem+sum(payload(:,2))*2.20462+fuel;
     
     %xcgs:
-    zfm=bem+sum(payload(:,2))*2.20462
-    xcgzfm=(xcgbem*bem+payloadmoment)/zfm
-    rampm=zfm+fuelloaded
-    xcgramp=(xcgzfm*zfm+fuelmomentinit)/rampm
+    zfm=bem+sum(payload(:,2))*2.20462;
+    xcgzfm=(xcgbem*bem+payloadmoment)/zfm;
+    rampm=zfm+fuelloaded;
+    xcgramp=(xcgzfm*zfm+fuelmomentinit)/rampm;
     
-    xcg=(bem*xcgbem+payloadmoment+fuelmoment)/ow
+    xcg=(bem*xcgbem+payloadmoment+fuelmoment)/ow;
+end
