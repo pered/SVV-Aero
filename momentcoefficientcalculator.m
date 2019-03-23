@@ -11,7 +11,7 @@ start = [indexes(1),indexes(indexmeasurements(1));
 
 %%%CG Shift Test%%%
 
-
+    
 timeoffcgshift = [51 + 02/60, 5/60;
     52+46/60, 5/60]; %End time and duration
 
@@ -175,7 +175,7 @@ cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshift
 
 
 %Cmalpha
-
+web(https://www.blacked.com)
 dealpha = plat(1);
 cmalpha = cmde * (-1) * dealpha
 
