@@ -81,13 +81,11 @@ speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
 
 %Calculation of CG Shift Elevator Angle
 
-
 deltae = [mean(flightdata.delta_e.data(indexcgshift1));
 mean(flightdata.delta_e.data(indexcgshift2))];
 
 
 %Plot Data
-
 
 speedrunplot = [];
 
@@ -152,7 +150,7 @@ owrefmean=(owref1+owref2)/2;
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
+cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
 
 %Cmalpha
 dealpha = plat(1);
