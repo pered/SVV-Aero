@@ -18,13 +18,6 @@ bem=9165;
 xcgbem=292.18;
 fuelloaded=4050;
 
-
-rampweight = [bem+fuelloaded+sum(payloadref(:,2))*2.20462,xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
-
-%Unit conversion
-
-rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254];
-
 %Index of the start of the test
 
 indexcgshift1 = start(17,1):start(17,2);
@@ -107,6 +100,8 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
     mean(flightdata.vane_AOA.data(indexspeedrun6)), mean(flightdata.delta_e.data(indexspeedrun6));
     mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
 
+
+stickforcesplot = [diff(flightdata.column_fe.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data(10000:20000)),diff(flightdata.delta_e.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data((10000:20000)))];
 
 %Matrix with values
 
