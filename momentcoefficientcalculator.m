@@ -19,16 +19,16 @@ fuelloaded=4050;
 
 %Index of the start of the test
 
-indexcgshift1 = start(17,1):start(17,2);
-indexcgshift2 = start(18,1):start(18,2);
+indexcgshift1 = start(15,1):start(15,2);
+indexcgshift2 = start(16,1):start(16,2);
 
-indexspeedrun1 = start(9,1):start(9,2);
-indexspeedrun2 = start(10,1):start(10,2);
-indexspeedrun3 = start(11,1):start(11,2);
-indexspeedrun4 = start(12,1):start(12,2);
-indexspeedrun5 = start(13,1):start(13,2);
-indexspeedrun6 = start(14,1):start(14,2);
-indexspeedrun7 = start(15,1):start(15,2);
+indexspeedrun1 = start(8,1):start(8,2);
+indexspeedrun2 = start(9,1):start(9,2);
+indexspeedrun3 = start(10,1):start(10,2);
+indexspeedrun4 = start(11,1):start(11,2);
+indexspeedrun5 = start(12,1):start(12,2);
+indexspeedrun6 = start(13,1):start(13,2);
+indexspeedrun7 = start(14,1):start(14,2);
 
 disp(['Elevator Trim Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun1(end))-flightdata.Gps_utcSec.data(1))/60)])
 disp(['Elevator Trim Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun2(end))-flightdata.Gps_utcSec.data(1))/60)])
