@@ -7,7 +7,7 @@ indexes = find(flightdata.measurement_running.data);
 
 start = [indexes(1),indexes(indexmeasurements(1));
     indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
-    indexes(indexmeasurements(end)+1), indexes(end)]
+    indexes(indexmeasurements(end)+1), indexes(end)];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
