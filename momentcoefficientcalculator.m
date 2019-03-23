@@ -155,7 +155,6 @@ owrefmean=(owref1+owref2)/2;
 cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
 
 %Cmalpha
-web(https://www.blacked.com)
 dealpha = plat(1);
 cmalpha = cmde * (-1) * dealpha;
 
