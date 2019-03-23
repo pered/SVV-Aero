@@ -1,5 +1,14 @@
 %Time point in minutes since the powerup of the recording of data
 
+
+indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1)
+
+indexes = find(flightdata.measurement_running.data)
+
+start = [indexes(1),indexes(indexmeasurements(1));
+    indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
+    indexes(indexmeasurements(end)+1), indexes(end)]
+
 %%%CG Shift Test%%%
 
 
@@ -42,16 +51,16 @@ geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geo
 
 %Index of the start of the test
 
-indexcgshift1 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(1,1)-timeoffcgshift(1,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(1,1)*60);
-indexcgshift2 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffcgshift(2,1)-timeoffcgshift(2,2))*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + timeoffcgshift(2,1)*60);
+indexcgshift1 = start(17,1):start(17,2);
+indexcgshift2 = start(18,1):start(18,2);
 
-indexspeedrun1 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)-timeoffspeedrun(1,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(1,1)).*60);
-indexspeedrun2 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)-timeoffspeedrun(2,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(2,1)).*60);
-indexspeedrun3 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(3,1)-timeoffspeedrun(3,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(3,1)).*60);
-indexspeedrun4 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(4,1)-timeoffspeedrun(4,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(4,1)).*60);
-indexspeedrun5 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(5,1)-timeoffspeedrun(5,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(5,1)).*60);
-indexspeedrun6 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(6,1)-timeoffspeedrun(6,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(6,1)).*60);
-indexspeedrun7 = find(flightdata.Gps_utcSec.data >= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(7,1)-timeoffspeedrun(7,2)).*60 & flightdata.Gps_utcSec.data <= flightdata.Gps_utcSec.data(1) + (timeoffspeedrun(7,1)).*60);
+indexspeedrun1 = start(9,1):start(9,2);
+indexspeedrun2 = start(10,1):start(10,2);
+indexspeedrun3 = start(11,1):start(11,2);
+indexspeedrun4 = start(12,1):start(12,2);
+indexspeedrun5 = start(13,1):start(13,2);
+indexspeedrun6 = start(14,1):start(14,2);
+indexspeedrun7 = start(15,1):start(15,2);
 
 %atmospheric
 
@@ -153,20 +162,17 @@ axis ij
 
 
 
-%Cmdeltae calculation from cg shift
-
-indexcgshift11 = 30590;
-indexcgshift22 = 31645;
-
 %[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
-%cmde = cmdee(11000*4.448,145,1.,2,3.,30,2.)
 
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,indexcgshift11,flightdata.lh_engine_FU.data(indexcgshift11),flightdata.rh_engine_FU.data(indexcgshift11),payloadref,fuelloaded);
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,indexcgshift22,flightdata.lh_engine_FU.data(indexcgshift22),flightdata.rh_engine_FU.data(indexcgshift22),payloadrefshifted,fuelloaded);
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 owrefmean=(owref1+owref2)/2;
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2))
+
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
+
+cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2))
+
 
 %Cmalpha
 
