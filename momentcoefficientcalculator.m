@@ -9,25 +9,6 @@ start = [indexes(1),indexes(indexmeasurements(1));
     indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
     indexes(indexmeasurements(end)+1), indexes(end)];
 
-%%%CG Shift Test%%%
-
-
-timeoffcgshift = [51 + 02/60, 5/60;
-    52+46/60, 5/60]; %End time and duration
-
-
-%%%Elevator Trim Tests%%%
-
-%Speedrun 1-7
-
-timeoffspeedrun = [37+19/60, 10/60; %End time and duration
-    39+11/60,10/60;
-    41+24/60,10/60;
-    42+56/60,10/60;
-    45+41/60,10/60;
-    47+20/60,10/60;
-    48+40/60,10/60];
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -175,8 +156,8 @@ axis ij
 
 %[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded)
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded)
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 owrefmean=(owref1+owref2)/2;
 
