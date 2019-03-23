@@ -1,53 +1,21 @@
 %Time point in minutes since the powerup of the recording of data
 
 
-indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1)
+indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1);
 
-indexes = find(flightdata.measurement_running.data)
+indexes = find(flightdata.measurement_running.data);
 
 start = [indexes(1),indexes(indexmeasurements(1));
     indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
     indexes(indexmeasurements(end)+1), indexes(end)]
 
-%%%CG Shift Test%%%
-
-    
-timeoffcgshift = [51 + 02/60, 5/60;
-    52+46/60, 5/60]; %End time and duration
-
-
-%%%Elevator Trim Tests%%%
-
-%Speedrun 1-7
-
-timeoffspeedrun = [37+19/60, 10/60; %End time and duration
-    39+11/60,10/60;
-    41+24/60,10/60;
-    42+56/60,10/60;
-    45+41/60,10/60;
-    47+20/60,10/60;
-    48+40/60,10/60];
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-geopos = [[4.2, 2.7];[6.7,3.8];[285.56,0]]; %1st wing position x and y, 2nd horizontal stabiliser position x and y and fuel position in inches
 
 geospecs = [30,2.0569]; %in metric, surface & mac
 
 bem=9165;
 xcgbem=292.18;
 fuelloaded=4050;
-
-
-rampweight = [bem+fuelloaded+sum(payloadref(:,2))*2.20462,xcgbem,3]; %OW, x cg pos, z cg pos in ibs and inches
-
-%Unit conversion
-
-rampweightmetric = [rampweight(1)*0.45359237, rampweight(2)*0.0254, rampweight(3)*0.0254];
-geoposmetric = [[geopos(1,1)*0.0254, geopos(1,2)*0.0254];[geopos(2,1)*0.0254,geopos(2,2)*0.0254];[geopos(3,1)*0.0254, geopos(3,2)*0.0254]];
-
-
 
 %Index of the start of the test
 
@@ -61,6 +29,17 @@ indexspeedrun4 = start(12,1):start(12,2);
 indexspeedrun5 = start(13,1):start(13,2);
 indexspeedrun6 = start(14,1):start(14,2);
 indexspeedrun7 = start(15,1):start(15,2);
+
+disp(['Elevator Trim Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun1(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun2(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 3: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun3(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun3(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 4: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun4(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun4(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 5: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun5(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun5(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 6: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun6(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun6(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['Elevator Trim Test 7: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun7(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun7(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['CG Shift Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshift1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexcgshift1(end))-flightdata.Gps_utcSec.data(1))/60)])
+disp(['CG Shift Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshift2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexcgshift2(end))-flightdata.Gps_utcSec.data(1))/60)])
+
 
 %atmospheric
 
@@ -121,6 +100,8 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
     mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
 
 
+stickforcesplot = [diff(flightdata.column_fe.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data(10000:20000)),diff(flightdata.delta_e.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data((10000:20000)))];
+
 %Matrix with values
 
 
@@ -139,7 +120,7 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
 %Plot Elevator Trim Curve vs alpha
 
 figure(1)
-plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1)
+plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1);
 scatter(speedrunplot(:,1),speedrunplot(:,2))
 axis('ij')
 hold on
@@ -164,18 +145,19 @@ axis ij
 
 %[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
 
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,mean(round(mean(indexcgshift1))),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded)
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded)
+[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,round(mean(indexcgshift1)),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadref,fuelloaded);
+[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadrefshifted,fuelloaded);
 deltacg = xcgref2 - xcgref1;
 owrefmean=(owref1+owref2)/2;
 
 %cmde(W,V,rho,deltae,deltacg,S,cbar)
 
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2))
-
+cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)*0.5144),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
 
 %Cmalpha
 web(https://www.blacked.com)
 dealpha = plat(1);
-cmalpha = cmde * (-1) * dealpha
+cmalpha = cmde * (-1) * dealpha;
+
+disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 
