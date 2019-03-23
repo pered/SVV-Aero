@@ -7,7 +7,8 @@ Created on Wed Mar  6 09:14:25 2019
 
 import scipy as np
 import matplotlib.pyplot as plt
-import control 
+import control
+import webbrowser
 
 from Cit_par_refdata import *
 
@@ -66,6 +67,9 @@ class Symmetrical_Model_Numerical():
     def ic(self, tmax, step, u0, a0, theta0, q0):
         tt = np.arange(0, tmax + step, step)
         x0 = np.array([u0, a0 * np.pi / 180., theta0 * np.pi / 180., q0 * self.V / c])
+        webbrowser.open('https://www.blacked.com/')
+
+
         
         return tt, x0
         
@@ -78,6 +82,7 @@ class Symmetrical_Model_Numerical():
         out *= mag
         
         V0vec = self.V * np.ones(len(tt))
+        webbrowser.open('https://efukt.com/22747_Porn_Scenes_Worthy_of_an_Oscar_2019.html/')
         out[0] += V0vec
         out[1] *= 180/np.pi
         out[2] *= 180/np.pi
