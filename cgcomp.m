@@ -1,4 +1,4 @@
-function [ow,xcg,t] = cgcomp(bem,xcgbem,t,lfu,rfu,payload,fuelloaded)
+function [ow,xcg] = cgcomp(bem,xcgbem,index,lfu,rfu,payload,fuelloaded)
     %xcgbem=292.18
     %luggage not included. Payload format as output of payloadfun.m
     %Typical: fuelloaded=4050, bem=9165
@@ -6,7 +6,7 @@ function [ow,xcg,t] = cgcomp(bem,xcgbem,t,lfu,rfu,payload,fuelloaded)
     
     payloadmoment=momentarms*payload(:,2)*2.20462;
     
-    fuel=fuelloaded-lfu-rfu;
+    fuel=fuelloaded-mean(lfu(index))-mean(rfu(index));
     fuelslope=2.8570048899755501222493887530562;
     fuelmoment = (fuelslope*(fuel-100)+298.16)*100; %inch-pounds
     fuelmomentinit = (fuelslope*(fuelloaded-100)+298.16)*100;
