@@ -163,6 +163,6 @@ disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 [ow5, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun5)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun5))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun5))),payloadactual,fuelloaded);
 [ow6, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun6)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun6))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun6))),payloadactual,fuelloaded);
 [ow7, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun7)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun7))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun7))),payloadactual,fuelloaded);
-owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]
+owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]*4.44822
 
-vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) *4.44822
+vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) 
