@@ -131,7 +131,7 @@ owlist = [cgcomp(bem,xcgbem,indexspeedrun1,flightdata.lh_engine_FU.data,flightda
 	cgcomp(bem,xcgbem,indexspeedrun6,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
 	cgcomp(bem,xcgbem,indexspeedrun7,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded)];
 
-speedrunatmosphericreduced = [speedrunatmospheric(:,1), speedrunatmospheric(:,2)./sqrt(owlist(:,1)*4.44822).*sqrt(Ws) , speedrunatmospheric(:,3)];
+speedrunatmosphericreduced = [speedrunatmospheric(:,1), speedrunatmospheric(:,2) , speedrunatmospheric(:,3)./sqrt(owlist(:,1)*4.44822).*sqrt(Ws)];
 
 
 %Thrust Reductions
@@ -188,30 +188,39 @@ column_fereduced = column_fe.*Ws./(owlist*4.44822);
 
 %%% Extra Plots %%%
 
-%Plot Elevator Trim Curve vs tas
+%Plot Elevator Trim Curve vs alpha
 
-figure(1)
+subplot(3,1,1)
 scatter(speedrunplot(:,1),speedrunplot(:,2))
 axis('ij')
 hold on
+scatter(speedrunplot(:,1),deltaereduced)
 xplt=[0:1:13];
 yplt=polyval(plat,xplt);
-%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+legend('Non-Reduced Data','Reduced Data')
 plot(xplt,yplt)
 
-%Plot Elevator Trim Curve vs tas
+%Plot Elevator Trim Curve vs eas
 
-figure(2)
-blyat = polyfit((speedrunatmospheric(:,2).^(-2)),speedrunplot(:,2),1);
-xplt=[35:1:150];
+subplot(3,1,2)
+blyat = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
+xplt=[45:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
-scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
+scatter(speedrunatmospheric(:,3),speedrunplot(:,2))
 hold on
-scatter(speedrunatmosphericreduced(:,2),speedrunplot(:,2))
-plot(xplt,ypltav)
+scatter(speedrunatmosphericreduced(:,3),deltaereduced)
 axis ij
+legend('Non-Reduced Data','Reduced Data')
+plot(xplt,ypltav)
 
-clc
+%Plot Elevator Force vs eas
+
+subplot(3,1,3)
+scatter(speedrunatmospheric(:,3), column_fe)
+hold on
+scatter(speedrunatmosphericreduced(:,3), column_fereduced)
+
+
 
 
 
