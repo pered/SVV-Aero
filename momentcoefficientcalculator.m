@@ -98,7 +98,7 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
     mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
 
 
-stickforcesplot = [diff(flightdata.column_fe.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data(10000:20000)),diff(flightdata.delta_e.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data((10000:20000)))];
+%stickforcesplot = [diff(flightdata.column_fe.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1),diff(flightdata.column_Se.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1)];
 
 % %Weight obtaining the weight and cg at particular time point
 % 
@@ -131,7 +131,10 @@ xplt=[35:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
 scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
 hold on
+<<<<<<< HEAD
 %web("https://www.pornhub.com/view_video.php?viewkey=ph5c56b8fcc195e")
+=======
+>>>>>>> 063437f0c5a289b34c103fcffaad92b2cbdabbe6
 plot(xplt,ypltav)
 axis ij
 
