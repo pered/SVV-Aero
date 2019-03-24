@@ -199,8 +199,6 @@ yplt=polyval(plat,xplt);
 %P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
 plot(xplt,yplt)
 
-
-
 %Plot Elevator Trim Curve vs tas
 
 figure(2)
