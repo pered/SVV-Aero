@@ -115,6 +115,7 @@ yplt=polyval(plat,xplt);
 plot(xplt,yplt)
 
 
+
 %Plot Elevator Trim Curve vs tas
 
 figure(2)
@@ -126,6 +127,7 @@ hold on
 plot(xplt,ypltav)
 axis ij
 
+clc
 
 
 %%% Calculation of Cmde and Cmalpha %%%
@@ -200,6 +202,9 @@ deltaereduced = speedrunplot(:,2)-1./cmde.*cmtc.*(thrustcoefstandardised-thrustc
 
 
 %Reduced Elevator Control Force Curve 
+
+
+
 
 
 figure(3)
