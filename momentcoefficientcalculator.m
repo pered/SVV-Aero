@@ -201,7 +201,6 @@ deltaereduced = speedrunplot(:,2)-1./cmde.*cmtc.*(thrustcoefstandardised-thrustc
 
 %Reduced Elevator Control Force Curve 
 
-vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500);
 
 figure(3)
 blyati = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
