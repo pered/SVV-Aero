@@ -166,3 +166,14 @@ disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]*4.44822
 
 vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) 
+
+figure(3)
+blyati = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
+xplt=[35:1:150];
+ypltavv=polyval(blyati,xplt.^(-2));
+scatter(speedrunatmospheric(:,3),speedrunplot(:,2))
+hold on
+plot(xplt,ypltav)
+axis ij
+
+%deltaeq reduced has to be computed
