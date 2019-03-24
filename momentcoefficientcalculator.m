@@ -165,7 +165,7 @@ disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 [ow7, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun7)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun7))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun7))),payloadactual,fuelloaded);
 owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]*4.44822
 
-vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) 
+vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500);
 
 figure(3)
 blyati = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
