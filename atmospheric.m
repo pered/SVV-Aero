@@ -11,4 +11,3 @@ rho = pressure./(8.3144598./0.0289644.*(273.15+sat));
 
 tas = flightdata.Dadc1_tas.data(index:indexend)*0.5144447;
 eas = tas.*sqrt(rho./1.225);
-
