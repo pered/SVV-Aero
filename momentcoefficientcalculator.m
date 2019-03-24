@@ -85,8 +85,6 @@ speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 
-
-
 %%% Plot Data %%%
 
 speedrunplot = [];
@@ -99,35 +97,9 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
     mean(flightdata.vane_AOA.data(indexspeedrun6)), mean(flightdata.delta_e.data(indexspeedrun6));
     mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
 
-%stickforcesplot = [diff(flightdata.column_fe.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1),diff(flightdata.column_Se.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1)];
+%%% dDeltae/dalpha best fit %%%
 
-
-%Plot Elevator Trim Curve vs alpha
-
-figure(1)
 plat = polyfit(speedrunplot(:,1),speedrunplot(:,2),1);
-scatter(speedrunplot(:,1),speedrunplot(:,2))
-axis('ij')
-hold on
-xplt=[0:1:13];
-yplt=polyval(plat,xplt);
-%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
-plot(xplt,yplt)
-
-
-
-%Plot Elevator Trim Curve vs tas
-
-figure(2)
-blyat = polyfit((speedrunatmospheric(:,2).^(-2)),speedrunplot(:,2),1);
-xplt=[35:1:150];
-ypltav=polyval(blyat,xplt.^(-2));
-scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
-hold on
-plot(xplt,ypltav)
-axis ij
-
-clc
 
 
 %%% Calculation of Cmde and Cmalpha %%%
@@ -204,16 +176,46 @@ deltaereduced = speedrunplot(:,2)-1./cmde.*cmtc.*(thrustcoefstandardised-thrustc
 %Reduced Elevator Control Force Curve 
 
 
+column_fe = [mean(flightdata.column_fe.data(indexspeedrun1));
+    mean(flightdata.column_fe.data(indexspeedrun2));
+    mean(flightdata.column_fe.data(indexspeedrun3));
+    mean(flightdata.column_fe.data(indexspeedrun4));
+    mean(flightdata.column_fe.data(indexspeedrun5));
+    mean(flightdata.column_fe.data(indexspeedrun6));
+    mean(flightdata.column_fe.data(indexspeedrun7))];
 
+column_fereduced = column_fe.*Ws./(owlist*4.44822);
 
+%%% Extra Plots %%%
 
-figure(3)
-blyati = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
-xplt=[35:1:150];
-ypltavv=polyval(blyati,xplt.^(-2));
-scatter(speedrunatmospheric(:,3),speedrunplot(:,2))
+%Plot Elevator Trim Curve vs tas
+
+figure(1)
+scatter(speedrunplot(:,1),speedrunplot(:,2))
+axis('ij')
 hold on
+xplt=[0:1:13];
+yplt=polyval(plat,xplt);
+%P = polyfit(flightdata.vane_AOA.data(index:indexend),flightdata.delta_e.data(index:indexend),1)
+plot(xplt,yplt)
+
+
+
+%Plot Elevator Trim Curve vs tas
+
+figure(2)
+blyat = polyfit((speedrunatmospheric(:,2).^(-2)),speedrunplot(:,2),1);
+xplt=[35:1:150];
+ypltav=polyval(blyat,xplt.^(-2));
+scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
+hold on
+scatter(speedrunatmosphericreduced(:,2),speedrunplot(:,2))
 plot(xplt,ypltav)
 axis ij
+
+clc
+
+
+
 
 
