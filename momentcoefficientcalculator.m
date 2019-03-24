@@ -136,6 +136,7 @@ xplt=[35:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
 scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
 hold on
+web("https://www.pornhub.com/view_video.php?viewkey=ph5c56b8fcc195e")
 plot(xplt,ypltav)
 axis ij
 

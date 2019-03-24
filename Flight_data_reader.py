@@ -15,13 +15,13 @@ import matplotlib.pyplot as plt
 #Pitch = Flightdata['flightdata']['Ahrs1_Pitch'][0][0][0][0][0]
 
 
-def plot_data(tstart, tend, datasets, a0, theta0):
+def plot_data(tstart, tend, datasets):
     
     Flightdata = np.io.loadmat('FTISxprt-20190319_123022.mat')
 
     TimeData = Flightdata['flightdata']['time'][0][0][0][0][0].transpose()
-    VaneAOA = Flightdata['flightdata']['vane_AOA'][0][0][0][0][0] - a0
-    Pitch = Flightdata['flightdata']['Ahrs1_Pitch'][0][0][0][0][0] - theta0
+    VaneAOA = Flightdata['flightdata']['vane_AOA'][0][0][0][0][0]
+    Pitch = Flightdata['flightdata']['Ahrs1_Pitch'][0][0][0][0][0]
     VTAS = Flightdata['flightdata']['Dadc1_tas'][0][0][0][0][0] * 0.514444 #converted to m/s
        
     

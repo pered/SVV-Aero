@@ -9,8 +9,9 @@ Created on Wed Mar  6 09:30:16 2019
 import control
 import matplotlib.pyplot as plt
 from Cit_par import *
+from Flight_data_reader import *
 
-V = V0
+V = 59.9
 
 class Asymmetric_Model_numerical():
     
@@ -27,6 +28,7 @@ class Asymmetric_Model_numerical():
     y_r      = (V/b) * ((CYr-4*mub)/(2*mub))
     y_deltaa = (V/b) * (CYda/(2*mub))
     y_deltar = (V/b) * (CYdr/(2*mub))
+    
     
     l_beta   = (V/b) * ((Clb * KZ2 + Cnb * KXZ)/(4*mub * (KX2 * KZ2 - KXZ**2)))
     l_phi    = 0
@@ -72,13 +74,71 @@ class Asymmetric_Model_numerical():
                   [ 0., 0. ],
                   [ 0., 0. ]]
         
+"""---------------------------------------------------------"""
+        
+def inputs():
+    
+    print("Define Initial Conditions:")
+    b0   = float(input("Angle of sideslip $\\beta$: "))
+    phi0 = float(input("Angle of roll \\phi$: "))
+    V    = float(input("Magnitude of the airspeed vector V: "))
+    p0   = float(input("Angular velocity about X-axis p: "))
+    r0   = float(input("Angular velocity about Z-axis r: "))
+
+    x0 = [[             b0 ],
+          [           phi0 ],
+          [   (p0*b)/(2.*V) ],
+          [   (r0*b)/(2.*V) ]]
+    
+    print("Define timeframe")
+    t_end = int(input("Time t: "))
+    dt = float(input("Stepsize in seconds dt: "))
+    
+    t = np.arange(0, int(t_end), dt)
+       
+    print("Define Inputs:")
+    delta_a   = float(input("Aileron deflection $\\delta$_a: "))
+    delta_r = float(input("Rudder deflection \\delta$_r: "))
+    
+    inpt = [ np.concatenate((np.full((int(1/dt)), delta_a), np.zeros(int((t_end-1)*(1/dt)))), axis=None ) ,
+             np.concatenate((np.full((int(1/dt)), delta_r), np.zeros(int((t_end-1)*(1/dt)))), axis=None ) ]
+    
+    return x0, inpt, t
+
+"""---------------------------------------------------------"""
+
+def gen_plots(resp,title):   
+    
+    labels = ["Angle of sideslip $\\beta$ [Rad]", "Angle of roll $\\phi$ [Rad]", "Angular velocity about the X-axis p [Rad/sec]", "Angular velocity about the Z-axis r [Rad/sec]", "Yaw angle $\\psi$ [Rad]"]
+    
+    plt.suptitle(title)
+    
+    for i in range(5):
+        
+        plt.subplot(2,3,i+1)
+        plt.plot(t, resp[1][i])
+        plt.xlabel("time[s]")
+        plt.ylabel(labels[i])
+        
+    plt.show()
+
+"""---------------------------------------------------------"""
+
+x0, inpt, t = inputs()
+
 asymm = Asymmetric_Model_numerical()
         
 sys1 = control.ss(asymm.A,asymm.B,asymm.C,asymm.D)
 
-inpt = [[ 0.025],
-        [ 0.]]
+p = control.pole(sys1)
+print(p)
+ee = np.linalg.eig(asymm.A)
 
-response = control.impulse_response(sys1,input=1)
+response_a = control.forced_response(sys1, U=inpt, X0=x0, T=t)
+response_r = control.forced_response(sys1, U=inpt, X0=x0, T=t)
 
-plt.plot(response[1][5])
+
+#gen_plots(response_a, "Response curves for rudder deflection")
+#gen_plots(response_r, "Response curves for aileron deflection")
+
+plot_data(46*60,48*60,response_a)
