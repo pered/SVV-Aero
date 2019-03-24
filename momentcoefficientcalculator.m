@@ -1,4 +1,19 @@
-%Time point in minutes since the powerup of the recording of data
+%%% Variables %%%
+
+firstspeedrunindex = 8;
+firstcgshiftindex = 15;
+
+Ws = 60500;
+mdotfs = 0.048;
+cmtc = -0.0064;
+
+geospecs = [30,2.0569]; %in metric, surface & mac
+bem=9165;
+xcgbem=292.18;
+fuelloaded=4050;
+
+
+%%% Detection of Measurement Periods %%%
 
 
 indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1);
@@ -9,26 +24,19 @@ start = [indexes(1),indexes(indexmeasurements(1));
     indexes(indexmeasurements(1:end-1)+1),indexes(indexmeasurements(2:end)); 
     indexes(indexmeasurements(end)+1), indexes(end)];
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-geospecs = [30,2.0569]; %in metric, surface & mac
+%%% Indexing of the Tests %%%
 
-bem=9165;
-xcgbem=292.18;
-fuelloaded=4050;
+indexcgshift1 = start(firstcgshiftindex,1):start(firstcgshiftindex,2);
+indexcgshift2 = start(firstcgshiftindex+1,1):start(firstcgshiftindex+1,2);
 
-%Index of the start of the test
-
-indexcgshift1 = start(15,1):start(15,2);
-indexcgshift2 = start(16,1):start(16,2);
-
-indexspeedrun1 = start(8,1):start(8,2);
-indexspeedrun2 = start(9,1):start(9,2);
-indexspeedrun3 = start(10,1):start(10,2);
-indexspeedrun4 = start(11,1):start(11,2);
-indexspeedrun5 = start(12,1):start(12,2);
-indexspeedrun6 = start(13,1):start(13,2);
-indexspeedrun7 = start(14,1):start(14,2);
+indexspeedrun1 = start(firstspeedrunindex,1):start(firstspeedrunindex,2);
+indexspeedrun2 = start(firstspeedrunindex+1,1):start(firstspeedrunindex+1,2);
+indexspeedrun3 = start(firstspeedrunindex+2,1):start(firstspeedrunindex+2,2);
+indexspeedrun4 = start(firstspeedrunindex+3,1):start(firstspeedrunindex+3,2);
+indexspeedrun5 = start(firstspeedrunindex+4,1):start(firstspeedrunindex+4,2);
+indexspeedrun6 = start(firstspeedrunindex+5,1):start(firstspeedrunindex+5,2);
+indexspeedrun7 = start(firstspeedrunindex+6,1):start(firstspeedrunindex+6,2);
 
 disp(['Elevator Trim Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun1(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun1(end))-flightdata.Gps_utcSec.data(1))/60)])
 disp(['Elevator Trim Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexspeedrun2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexspeedrun2(end))-flightdata.Gps_utcSec.data(1))/60)])
@@ -41,7 +49,7 @@ disp(['CG Shift Test 1: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshif
 disp(['CG Shift Test 2: Start:', num2str((flightdata.Gps_utcSec.data(indexcgshift2(1))-flightdata.Gps_utcSec.data(1))/60) ,' End:',num2str((flightdata.Gps_utcSec.data(indexcgshift2(end))-flightdata.Gps_utcSec.data(1))/60)])
 
 
-%atmospheric
+%%% Atmospheric Parameters %%%
 
 cgshiftatmospheric = [];
 
@@ -52,8 +60,6 @@ cgshiftatmospheric = [cgshiftatmospheric; mean(rho), mean(tas)];
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexcgshift2(1), indexcgshift2(end));
 
 cgshiftatmospheric = [cgshiftatmospheric; mean(rho), mean(tas)];
-
-%%%
 
 speedrunatmospheric = [];
 
@@ -79,13 +85,9 @@ speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 
-%Calculation of CG Shift Elevator Angle
-
-deltae = [mean(flightdata.delta_e.data(indexcgshift1));
-mean(flightdata.delta_e.data(indexcgshift2))];
 
 
-%Plot Data
+%%% Plot Data %%%
 
 speedrunplot = [];
 
@@ -97,17 +99,7 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
     mean(flightdata.vane_AOA.data(indexspeedrun6)), mean(flightdata.delta_e.data(indexspeedrun6));
     mean(flightdata.vane_AOA.data(indexspeedrun7)), mean(flightdata.delta_e.data(indexspeedrun7));];
 
-
 %stickforcesplot = [diff(flightdata.column_fe.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1),diff(flightdata.column_Se.data(indexspeedrun1))./diff(flightdata.Ahrs1_VertAcc.data(indexspeedrun1)+1)];
-
-% %Weight obtaining the weight and cg at particular time point
-% 
-% fuelused = (flightdata.lh_engine_FU.data + flightdata.rh_engine_FU.data)*0.45359237;
-% weightmetric = rampweightmetric(1) - fuelused(index:indexend);
-% 
-% %cg = [(rampweightmetric(1)*rampweightmetric(2)-fuelused(index)*geoposmetric(3,1))/weightmetric(1),0]
-% [ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
-
 
 
 %Plot Elevator Trim Curve vs alpha
@@ -131,38 +123,80 @@ xplt=[35:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
 scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
 hold on
-%web("https://www.pornhub.com/view_video.php?viewkey=ph5c56b8fcc195e")
 plot(xplt,ypltav)
 axis ij
 
 
 
-%[ow,xcg,t] = cgcomp(bem,xcgbem,index,flightdata.lh_engine_FU.data(index),flightdata.rh_engine_FU.data(index),payload,fuelloaded);
+%%% Calculation of Cmde and Cmalpha %%%
 
-[owref1,xcgref1,t1] = cgcomp(bem,xcgbem,round(mean(indexcgshift1)),flightdata.lh_engine_FU.data(round(mean(indexcgshift1))),flightdata.rh_engine_FU.data(round(mean(indexcgshift1))),payloadactual,fuelloaded);
-[owref2,xcgref2,t2] = cgcomp(bem,xcgbem,round(mean(indexcgshift2)),flightdata.lh_engine_FU.data(round(mean(indexcgshift2))),flightdata.rh_engine_FU.data(round(mean(indexcgshift2))),payloadactualshifted,fuelloaded);
-deltacg = xcgref2 - xcgref1;
-owrefmean=(owref1+owref2)/2;
+deltae = [mean(flightdata.delta_e.data(indexcgshift1));
+mean(flightdata.delta_e.data(indexcgshift2))];
 
-%cmde(W,V,rho,deltae,deltacg,S,cbar)
+[owref1,xcgref1] = cgcomp(bem,xcgbem,indexcgshift1,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+[owref2,xcgref2] = cgcomp(bem,xcgbem,indexcgshift2,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactualshifted,fuelloaded);
 
-cmde = cmdee(owrefmean*4.44822,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,deltacg*0.0254,geospecs(1),geospecs(2));
+cmde = cmdee((owref1+owref2)/2*4.44822,mean(cgshiftatmospheric(:,2)),mean(cgshiftatmospheric(:,1)),diff(deltae)*pi()/180,(xcgref2 - xcgref1)*0.0254,geospecs(1),geospecs(2));
 
-%Cmalpha
+%
 dealpha = plat(1);
 cmalpha = cmde * (-1) * dealpha;
 
 disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 
+
+%%% Reductions %%%
+
 %Plot reduced Elevator Trim Curve
 
-[ow1, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun1)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun1))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun1))),payloadactual,fuelloaded);
-[ow2, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun2)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun2))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun2))),payloadactual,fuelloaded);
-[ow3, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun3)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun3))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun3))),payloadactual,fuelloaded);
-[ow4, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun4)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun4))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun4))),payloadactual,fuelloaded);
-[ow5, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun5)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun5))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun5))),payloadactual,fuelloaded);
-[ow6, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun6)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun6))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun6))),payloadactual,fuelloaded);
-[ow7, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun7)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun7))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun7))),payloadactual,fuelloaded);
-owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]*4.44822
+owlist = [cgcomp(bem,xcgbem,indexspeedrun1,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun2,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun3,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun4,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun5,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun6,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun7,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded)];
 
-vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) 
+speedrunatmosphericreduced = [speedrunatmospheric(:,1), speedrunatmospheric(:,2)./sqrt(owlist(:,1)*4.44822).*sqrt(Ws) , speedrunatmospheric(:,3)];
+
+
+%Thrust Reductions
+
+atmospherethrust = [mean(flightdata.Dadc1_alt.data(indexspeedrun1))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun1)), mean(flightdata.Dadc1_tat.data(indexspeedrun1)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun1))),mean(flightdata.lh_engine_FMF.data(indexspeedrun1))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun1))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun2))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun2)), mean(flightdata.Dadc1_tat.data(indexspeedrun2)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun2))),mean(flightdata.lh_engine_FMF.data(indexspeedrun2))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun2))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun3))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun3)), mean(flightdata.Dadc1_tat.data(indexspeedrun3)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun3))),mean(flightdata.lh_engine_FMF.data(indexspeedrun3))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun3))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun4))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun4)), mean(flightdata.Dadc1_tat.data(indexspeedrun4)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun4))),mean(flightdata.lh_engine_FMF.data(indexspeedrun4))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun4))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun5))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun5)), mean(flightdata.Dadc1_tat.data(indexspeedrun5)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun5))),mean(flightdata.lh_engine_FMF.data(indexspeedrun5))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun5))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun6))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun6)), mean(flightdata.Dadc1_tat.data(indexspeedrun6)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun6))),mean(flightdata.lh_engine_FMF.data(indexspeedrun6))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun6))*0.4535923666/3600;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun7))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun7)), mean(flightdata.Dadc1_tat.data(indexspeedrun7)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun7))),mean(flightdata.lh_engine_FMF.data(indexspeedrun7))*0.4535923666/3600,mean(flightdata.rh_engine_FMF.data(indexspeedrun7))*0.4535923666/3600];
+
+atmospherethruststandardised = [mean(flightdata.Dadc1_alt.data(indexspeedrun1))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun1)), mean(flightdata.Dadc1_tat.data(indexspeedrun1)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun1))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun2))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun2)), mean(flightdata.Dadc1_tat.data(indexspeedrun2)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun2))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun3))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun3)), mean(flightdata.Dadc1_tat.data(indexspeedrun3)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun3))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun4))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun4)), mean(flightdata.Dadc1_tat.data(indexspeedrun4)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun4))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun5))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun5)), mean(flightdata.Dadc1_tat.data(indexspeedrun5)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun5))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun6))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun6)), mean(flightdata.Dadc1_tat.data(indexspeedrun6)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun6))),mdotfs,mdotfs;
+    mean(flightdata.Dadc1_alt.data(indexspeedrun7))*0.3048,mean(flightdata.Dadc1_mach.data(indexspeedrun7)), mean(flightdata.Dadc1_tat.data(indexspeedrun7)-(15-1.98./1000.*flightdata.Dadc1_alt.data(indexspeedrun7))),mdotfs,mdotfs];
+
+dlmwrite('matlab.dat', atmospherethrust, ' ');
+
+fileexe_path = which ('thrust.exe');
+system ([fileexe_path]);
+
+thrust = sum(load('thrust.dat'),2);
+
+dlmwrite('matlab.dat', atmospherethruststandardised, ' ');
+
+fileexe_path = which ('thrust.exe');
+system ([fileexe_path]);
+
+thruststandardised = sum(load('thrust.dat'),2);
+
+thrustcoefactual = thrust./(0.5.*speedrunatmospheric(:,1).*speedrunatmospheric(:,2).^2.*geospecs(1));
+
+thrustcoefstandardised = thruststandardised./(0.5.*speedrunatmospheric(:,1).*speedrunatmospheric(:,2).^2.*geospecs(1));
+
+deltaereduced = speedrunplot(:,2)-1./cmde.*cmtc.*(thrustcoefstandardised-thrustcoefactual);
+
+
+%Reduced Elevator Control Force Curve 
