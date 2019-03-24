@@ -176,4 +176,5 @@ hold on
 plot(xplt,ypltav)
 axis ij
 
+cmtc = -0.0064
 %deltaeq reduced has to be computed
