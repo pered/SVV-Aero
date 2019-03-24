@@ -58,25 +58,25 @@ cgshiftatmospheric = [cgshiftatmospheric; mean(rho), mean(tas)];
 speedrunatmospheric = [];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun1(1), indexspeedrun1(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun2(1), indexspeedrun2(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun3(1), indexspeedrun3(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun4(1), indexspeedrun4(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun5(1), indexspeedrun5(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun6(1), indexspeedrun6(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 [alt,pressure,sat,rho,tas,eas] = atmospheric(flightdata, indexspeedrun7(1), indexspeedrun7(end));
-speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas)]];
+speedrunatmospheric = [speedrunatmospheric;[mean(rho), mean(tas), mean(eas)]];
 
 
 %Calculation of CG Shift Elevator Angle
@@ -99,11 +99,6 @@ speedrunplot = [speedrunplot; mean(flightdata.vane_AOA.data(indexspeedrun1)), me
 
 
 stickforcesplot = [diff(flightdata.column_fe.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data(10000:20000)),diff(flightdata.delta_e.data(10000:20000))./diff(flightdata.Ahrs1_VertAcc.data((10000:20000)))];
-
-%Matrix with values
-
-
-
 
 % %Weight obtaining the weight and cg at particular time point
 % 
@@ -136,7 +131,7 @@ xplt=[35:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
 scatter(speedrunatmospheric(:,2),speedrunplot(:,2))
 hold on
-web("https://www.pornhub.com/view_video.php?viewkey=ph5c56b8fcc195e")
+%web("https://www.pornhub.com/view_video.php?viewkey=ph5c56b8fcc195e")
 plot(xplt,ypltav)
 axis ij
 
@@ -159,3 +154,15 @@ cmalpha = cmde * (-1) * dealpha;
 
 disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 
+%Plot reduced Elevator Trim Curve
+
+[ow1, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun1)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun1))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun1))),payloadactual,fuelloaded);
+[ow2, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun2)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun2))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun2))),payloadactual,fuelloaded);
+[ow3, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun3)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun3))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun3))),payloadactual,fuelloaded);
+[ow4, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun4)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun4))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun4))),payloadactual,fuelloaded);
+[ow5, ~, ~] = cgcomp(bem,xcgbem,round(mean(indexspeedrun5)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun5))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun5))),payloadactual,fuelloaded);
+[ow6, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun6)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun6))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun6))),payloadactual,fuelloaded);
+[ow7, xcg1, t1] = cgcomp(bem,xcgbem,round(mean(indexspeedrun7)),flightdata.lh_engine_FU.data(round(mean(indexspeedrun7))),flightdata.rh_engine_FU.data(round(mean(indexspeedrun7))),payloadactual,fuelloaded);
+owlist = [ow1;ow2;ow3;ow4;ow5;ow6;ow7]
+
+vreduced = speedrunatmospheric(:,3) .* 1/sqrt(owlist) *sqrt(60500) *4.44822
