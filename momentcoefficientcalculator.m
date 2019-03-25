@@ -183,7 +183,6 @@ deltaereduced = speedrunplot(:,2)-1./cmde.*cmtc.*(thrustcoefstandardised-thrustc
 
 %Reduced Elevator Control Force Curve 
 
-
 column_fe = [mean(flightdata.column_fe.data(indexspeedrun1));
     mean(flightdata.column_fe.data(indexspeedrun2));
     mean(flightdata.column_fe.data(indexspeedrun3));
