@@ -3,7 +3,7 @@
 firstspeedrunindex = 8;
 firstcgshiftindex = 15;
 
-%load('FTISxprt-20190319_123022.mat')
+load('matlab.mat')
 payloadvalues = 'payloadref.mat'
 payloadvaluesshifted = 'payloadrefshifted.mat'
 
