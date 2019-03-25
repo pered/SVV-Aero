@@ -198,39 +198,42 @@ column_fereduced = column_fe.*Ws./(owlist*4.44822);
 
 %Plot Elevator Trim Curve vs alpha
 
-subplot(3,1,1)
-scatter(speedrunplot(:,1),speedrunplot(:,2))
+figure(1)
+scatter(speedrunplot(:,1),speedrunplot(:,2),'DisplayName','Non-Reduced Data')
 axis('ij')
 hold on
-scatter(speedrunplot(:,1),deltaereduced)
+scatter(speedrunplot(:,1),deltaereduced,'DisplayName','Non-Reduced Data')
 xplt=[0:1:13];
 yplt=polyval(plat,xplt);
-legend('Non-Reduced Data','Reduced Data')
-plot(xplt,yplt)
-
+plot(xplt,yplt,'DisplayName','Data Fit')
+legend
+title('Elevator Trim Curve vs AoA')
+hold off
+xlabel('AoA [deg]')
+ylabel('Elevator deflection [deg]')
 %Plot Elevator Trim Curve vs eas
 
-subplot(3,1,2)
+figure(2)
 blyat = polyfit((speedrunatmospheric(:,3).^(-2)),speedrunplot(:,2),1);
 xplt=[45:1:150];
 ypltav=polyval(blyat,xplt.^(-2));
-scatter(speedrunatmospheric(:,3),speedrunplot(:,2))
+scatter(speedrunatmospheric(:,3),speedrunplot(:,2),'DisplayName','Non-Reduced Data')
 hold on
-scatter(speedrunatmosphericreduced(:,3),deltaereduced)
+scatter(speedrunatmosphericreduced(:,3),deltaereduced,'DisplayName','Reduced Data')
 axis ij
-legend('Non-Reduced Data','Reduced Data')
-plot(xplt,ypltav)
-
+%legend({'Non-Reduced Data','Reduced Data','Non-Reduced Data Fit'})
+plot(xplt,ypltav,'DisplayName','Non-Reduced Data Fit')
+bleati = polyfit((speedrunatmosphericreduced(:,3).^(-2)),deltaereduced,1);
+ypltavv = polyval(bleati, xplt.^(-2));
+plot(xplt,ypltavv,'DisplayName','Reduced Data Fit')
+legend
+axis([65 100 -2 1.5])
+title('Elevator Trim Curve vs Velocity')
 %Plot Elevator Force vs eas
 
-subplot(3,1,3)
+figure(3)
 scatter(speedrunatmospheric(:,3), column_fe)
 hold on
 scatter(speedrunatmosphericreduced(:,3), column_fereduced)
 axis ij
-
-
-
-
-
 
