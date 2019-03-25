@@ -131,13 +131,13 @@ disp(['Cmalpha is: ',num2str(cmalpha), ' and Cmdeltae is:', num2str(cmde)])
 
 %Plot reduced Elevator Trim Curve
 
-owlist = [cgcomp(bem,xcgbem,indexspeedrun1,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-    cgcomp(bem,xcgbem,indexspeedrun2,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-    cgcomp(bem,xcgbem,indexspeedrun3,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-    cgcomp(bem,xcgbem,indexspeedrun4,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-	cgcomp(bem,xcgbem,indexspeedrun5,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-	cgcomp(bem,xcgbem,indexspeedrun6,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded);
-	cgcomp(bem,xcgbem,indexspeedrun7,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadactual,fuelloaded)];
+owlist = [cgcomp(bem,xcgbem,indexspeedrun1,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun2,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun3,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+    cgcomp(bem,xcgbem,indexspeedrun4,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun5,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun6,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded);
+	cgcomp(bem,xcgbem,indexspeedrun7,flightdata.lh_engine_FU.data,flightdata.rh_engine_FU.data,payloadref,fuelloaded)];
 
 speedrunatmosphericreduced = [speedrunatmospheric(:,1), speedrunatmospheric(:,2) , speedrunatmospheric(:,3)./sqrt(owlist(:,1)*4.44822).*sqrt(Ws)];
 
