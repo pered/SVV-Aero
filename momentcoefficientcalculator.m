@@ -4,8 +4,8 @@ firstspeedrunindex = 8;
 firstcgshiftindex = 15;
 
 load('FTISxprt-20190319_123022.mat')
-payloadvalues = 'payloadactual.mat'
-payloadvaluesshifted = 'payloadactualshifted.mat'
+payloadactual = importdata('payloadactual.mat')
+payloadactualshifted = importdata('payloadactualshifted.mat')
 
 Ws = 60500;
 mdotfs = 0.048;
@@ -18,11 +18,6 @@ fuelloaded=4050;
 
 
 %%% Detection of Measurement Periods %%%
-
-
-load(payloadvalues)
-load(payloadvaluesshifted)
-
 
 indexmeasurements = find(diff(find(flightdata.measurement_running.data))~=1);
 
