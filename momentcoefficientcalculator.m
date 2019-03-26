@@ -216,7 +216,7 @@ hold on
 scatter(speedrunatmosphericreduced(:,3),deltaereduced,'^r','DisplayName','Reduced Data')
 axis ij
 %legend({'Non-Reduced Data','Reduced Data','Non-Reduced Data Fit'})
-plot(xplt,ypltav,'b','DisplayName','Non-Reduced Data Fit')
+plot(xplt,ypltav,'b--','DisplayName','Non-Reduced Data Fit')
 bleati = polyfit((speedrunatmosphericreduced(:,3).^(-2)),deltaereduced,1);
 ypltavv = polyval(bleati, xplt.^(-2));
 plot(xplt,ypltavv,'r','DisplayName','Reduced Data Fit')
@@ -234,7 +234,7 @@ hold on
 bleeati = polyfit(speedrunatmospheric(:,3).^2, column_fe,1);
 scatter(speedrunatmosphericreduced(:,3), column_fereduced,'^r','DisplayName','Reduced Data')
 ypltaav = polyval(bleeati, xplt.^(2));
-plot(xplt,ypltaav,'b','DisplayName','Non-Reduced Data Fit')
+plot(xplt,ypltaav,'b--','DisplayName','Non-Reduced Data Fit')
 bl3ati = polyfit(speedrunatmosphericreduced(:,3).^2, column_fereduced,1);
 ypltaaav = polyval(bl3ati, xplt.^(2));
 plot(xplt,ypltaaav,'r','DisplayName','Reduced Data Fit')
