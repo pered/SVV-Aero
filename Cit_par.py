@@ -5,22 +5,22 @@
 # Stationary flight condition
 import numpy as np
 
-hp0    = 1.      	     # pressure altitude in the stationary flight condition [m]
-V0     = 300.          # true airspeed in the stationary flight condition [m/sec]
-alpha0 = 3. * np.pi / 180            # angle of attack in the stationary flight condition [rad]
-th0    = 5. * np.pi / 180            # pitch angle in the stationary flight condition [rad]
+hp0    = 3000.      	     # pressure altitude in the stationary flight condition [m]
+V0     = 100.          # true airspeed in the stationary flight condition [m/sec]
+alpha0 = 0.            # angle of attack in the stationary flight condition [rad]
+th0    = 0.            # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
-m      = 10000.            # mass [kg]
+m      = 5000            # mass [kg]
 
 # aerodynamic properties
-e      = 1.            # Oswald factor [ ]
-CD0    = 0.005            # Zero lift drag coefficient [ ]
-CLa    = 0.5           # Slope of CL-alpha curve [ ]
+e      = 0.8            # Oswald factor [ ]
+CD0    = 0.04           # Zero lift drag coefficient [ ]
+CLa    = 5.084       # Slope of CL-alpha curve [ ]
 
 # Longitudinal stability
-Cma    = -1.            # longitudinal stabilty [ ]
-Cmde   = -0.5            # elevator effectiveness [ ]
+Cma    = -0.5626        # longitudinal stabilty [ ]
+Cmde   = -1.1642        # elevator effectiveness [ ]
 
 # Aircraft geometry
 
@@ -91,7 +91,7 @@ CZdt   = 0.0
 Cmu    = +0.06990
 Cmadot = +0.17800
 Cmq    = -8.79415
-Cmde   = 0.0
+#Cmde   = 0.0
 Cmdt   = 0.0
 
 CYb    = -0.7500
