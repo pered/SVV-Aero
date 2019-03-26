@@ -24,11 +24,11 @@ Cmde   = -1.4124           # elevator effectiveness [ ]
 
 # Aircraft geometry
 
-S      = 24.2          # wing area [m^2]
+S      = 30.00          # wing area [m^2]
 Sh     = 0.2 * S         # stabiliser area [m^2]
 Sh_S   = Sh / S	          # [ ]
 lh     = 5.5   # tail length [m]
-c      = 2.022	          # mean aerodynamic cord [m]
+c      = 2.0569	          # mean aerodynamic cord [m]
 lh_c   = lh / c	          # [ ]
 b      = 15.911	          # wing span [m]
 bh     = 5.791	          # stabilser span [m]
@@ -52,12 +52,12 @@ g      = 9.81            # [m/sec^2] (gravity constant)
 
 # Constant values concerning aircraft inertia
 
-muc    = 102.7
+#muc    = 102.7
 #mub    = m / (rho * S * b)
 KX2    = 0.019
 KZ2    = 0.042
 KXZ    = 0.002
-KY2    = 0.980
+KY2    = 1.3925
 
 # Aerodynamic constants
 
@@ -73,26 +73,26 @@ depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
 # Stabiblity derivatives
 
-#CX0    = 0.
-CXu    = -0.02792
+CX0    = 0.
+CXu    = +0.14792
 CXa    = -0.47966
 CXadot = +0.0833
 CXq    = -0.2817
 CXde   = -0.0373
 CXdt   = 0.0
 
-#CZ0    = -1.136
+CZ0    = -1.136
 CZu    = -0.3762
-CZa    = -5.7434
+CZa    = -10.7434
 CZadot = -0.0035
 CZq    = -5.6629
 CZde   = -0.6961
 CZdt   = 0.0
 
-Cmu    = +0.0699
+Cmu    = +0.25699
 Cmadot = -0.178
 Cmq    = -8.7941
-Cmde   = -1.1642
+#Cmde   = -1.1642
 Cmdt   = 0.0
 
 CYb    = -0.7500
