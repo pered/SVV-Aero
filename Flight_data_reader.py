@@ -23,6 +23,13 @@ def plot_data(tstart, tend, datasets):
     VaneAOA = Flightdata['flightdata']['vane_AOA'][0][0][0][0][0]
     Pitch = Flightdata['flightdata']['Ahrs1_Pitch'][0][0][0][0][0]
     VTAS = Flightdata['flightdata']['Dadc1_tas'][0][0][0][0][0] * 0.514444 #converted to m/s
+    Psi = Flightdata['flightdata']['Ahrs1_Roll'][0][0][0][0][0]
+    p = Flightdata['flightdata']['Ahrs1_bRollRate'][0][0][0][0][0]
+    r = Flightdata['flightdata']['Ahrs1_bYawRate'][0][0][0][0][0]
+    
+    d_e = Flightdata['flightdata']['delta_e'][0][0][0][0][0]
+    d_et = Flightdata['flightdata']['elevator_dte'][0][0][0][0][0]
+    d_ec = d_e + d_et
        
     
     timedomain = TimeData[(TimeData >= tstart) & (TimeData <= tend)] - tstart
@@ -37,8 +44,9 @@ def plot_data(tstart, tend, datasets):
         
     plt.show()
     
+    
 
-#plot_data(2790,3000,Pitch, 0 ,0)
+#plot_data(0,45000,[Pitch,d_e])
 
 
 
