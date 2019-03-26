@@ -244,3 +244,4 @@ ylabel('Force [N]')
 xlabel('Velocity [m/s]')
 legend
 axis([65 100 -50 100])
+yticks(-50:25:100)
