@@ -8,7 +8,7 @@ Created on Wed Mar  6 09:14:25 2019
 import scipy as np
 import matplotlib.pyplot as plt
 import control 
-from Cit_par import *
+#from Cit_par import *
 
 
 #plt.close('all')
